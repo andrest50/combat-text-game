@@ -35,7 +35,9 @@ namespace text_game
 
         public GameMechanics() { }            
 
-        public GameMechanics(Player player, EnemyActions enemyActions, Enemy enemy, Weapon weapon, WeaponActions weaponActions, GameMessages messages, Level level, PotionActions potionActions, HealthPotions healthPotion, Shop shop, ShieldPotion shieldPotion, AbilityActions abilityActions, Abilities ability)
+        public GameMechanics(Player player, EnemyActions enemyActions, Enemy enemy, Weapon weapon, WeaponActions weaponActions, 
+            GameMessages messages, Level level, PotionActions potionActions, HealthPotions healthPotion, Shop shop, 
+            ShieldPotion shieldPotion, AbilityActions abilityActions, Abilities ability)
         {
             Player = player;
             EnemyActions = enemyActions;
@@ -51,6 +53,16 @@ namespace text_game
             AbilityActions = abilityActions;
             Ability = ability;
             SetStartingValues();
+        }
+
+        private void SetStartingValues()
+        {
+            //Player.SetStartingValues();
+            Weapon = WeaponActions.SetStartingWeapon();
+            WeaponActions.SetStartingValues();
+            Level.SetStartingExp();
+            //HealthPotion = HealthPotion.SetStartingPotion();
+            //HealthPotion.SetStartingValues();
         }
 
         public void PromptSimulateAttacks()
@@ -123,16 +135,6 @@ namespace text_game
         public void SetStartingEnemyValues()
         {
            Enemy = EnemyActions.SetAttributes(Level);
-        }
-
-        private void SetStartingValues()
-        {
-            //Player.SetStartingValues();
-            Weapon = WeaponActions.SetStartingWeapon();
-            WeaponActions.SetStartingValues();
-            Level.SetStartingExp();
-            //HealthPotion = HealthPotion.SetStartingPotion();
-            //HealthPotion.SetStartingValues();
         }
 
         public void EnemyAppear()

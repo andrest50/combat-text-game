@@ -16,13 +16,7 @@ namespace text_game
 
         public static string Welcome()
         {
-            Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
-            Console.WriteLine("#           #  # # # #  #        # # # #  # # # #  # #     # #  # # # #     ");
-            Console.WriteLine(" #         #   #        #        #        #     #  #  #   #  #  #                ");
-            Console.WriteLine("  #   #   #    # # # #  #        #        #     #  #   # #   #  # # # #          ");
-            Console.WriteLine("   # # # #     #        #        #        #     #  #    #    #  #             ");
-            Console.WriteLine("    #   #      # # # #  # # # #  # # # #  # # # #  #         #  # # # #       ");
-            Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =\n");
+            Console.WriteLine("Welcome to the Game!");
             return Name();           
         }
 
@@ -250,7 +244,7 @@ namespace text_game
         public static void DisplayCurrentEnemyDamage(EnemyActions enemy)
         {
             Console.WriteLine("\n" + enemy.GetEnemyName() + "'s Damage Range:\n");
-            Console.WriteLine("Minimum Damage: " + enemy.GetEnemynMinDamage());
+            Console.WriteLine("Minimum Damage: " + enemy.GetEnemyMinDamage());
             Console.WriteLine("Maximum Damage: " + enemy.GetEnemyMaxDamage());
         }
       
@@ -261,23 +255,23 @@ namespace text_game
             DisplayEnemyStats(enemy);
             DisplayPlayerStats(player, enemy, level, weapon);
             DisplayPotionStats(enemy, healthPotion, shieldPotion);
-            DisplayBoostStats(weapon, enemy);
+            //DisplayBoostStats(weapon, enemy);
         }
 
         public static void DisplayEnemyStats(EnemyActions enemy)
         {
             Console.WriteLine(enemy.GetEnemy().Name + "'s Total Damage: " + enemy.GetEnemyTotalDamage());
-            Console.WriteLine(enemy.GetEnemy().Name + "'s Starting Health: " + enemy.GetEnemyStartingHealth());
+            //Console.WriteLine(enemy.GetEnemy().Name + "'s Starting Health: " + enemy.GetEnemyStartingHealth());
         }
 
         public static void DisplayPlayerStats(Player player, EnemyActions enemy, Level level, WeaponActions weapon)
         {
             Console.WriteLine("Player Health: " + player.GetHealth());
             Console.WriteLine("Current Weapon: " + weapon.GetWeaponName());
-            //Console.WriteLine(weapon.GetWeaponName() + "'s Durability: " + weapon.GetDurability());
+            Console.WriteLine(weapon.GetWeaponName() + "'s Durability: " + weapon.GetDurability());
             //Console.WriteLine("Player Total Damage: " + player.GetTotalDamage());
             Console.WriteLine("Exp from " + enemy.GetEnemy().Name + ": " + level.GetEncounterExp());
-            //Console.WriteLine("Total Exp: " + level.GetExp());
+            Console.WriteLine("Total Exp: " + level.GetExp());
             Console.WriteLine("Current Level: " + level.GetLevel());
             //Console.WriteLine("Enemies Slain: " + player.AddEnemiesSlain());
             Console.WriteLine("Number of Coins From " + enemy.GetEnemy().Name + ": " + player.GetEncounterCurrency());
@@ -294,8 +288,8 @@ namespace text_game
 
         public static void DisplayBoostStats(WeaponActions weapon, EnemyActions enemy)
         {
-            //Console.WriteLine("Current Weapon Boost: " + weapon.GetWeaponBoost());
-            //Console.WriteLine("Current Enemy Difficulty Boost: " + enemy.GetDifficultyBoost());
+            Console.WriteLine("Current Weapon Boost: " + weapon.GetWeaponBoost());
+            Console.WriteLine("Current Enemy Difficulty Boost: " + enemy.GetDifficultyBoost());
         }
     }
 }

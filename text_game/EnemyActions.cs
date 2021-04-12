@@ -318,7 +318,7 @@ namespace text_game
             return Enemy.Name;
         }
 
-        public int GetEnemynMinDamage()
+        public int GetEnemyMinDamage()
         {
             return Convert.ToInt32(Enemy.MinimumDamage * difficultyBoost);
         }

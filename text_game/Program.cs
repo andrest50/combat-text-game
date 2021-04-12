@@ -43,7 +43,9 @@ namespace text_game
                         break;
                     case 2:
                         Console.WriteLine("---------------------------------------------------------------------------");
-                        Console.WriteLine(" The objective of the game is to stay alive as long as possible.\n Waves of enemies will appear as you fight your way through the dungeon.\n Gain potions to stay alive and gather stronger weapons to fight your foes.\n How many enemies can you take out?\n");
+                        Console.WriteLine(" The objective of the game is to stay alive as long as possible.\n Waves of enemies will " +
+                            "appear as you fight your way through the dungeon.\n Gain potions to stay alive and gather stronger weapons " +
+                            "to fight your foes.\n How many enemies can you take out?\n");
                         option = mechanics.MainMenu();
                         startCase = true;
                         break;
