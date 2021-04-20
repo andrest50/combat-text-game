@@ -15,7 +15,7 @@ namespace text_game
             SetShieldActive(false);
         }
 
-        private int numShieldPotions { get; set; }
+        private int numShieldPotions;
         private int shieldTurns;
         private bool shieldActive;
 

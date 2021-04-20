@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,6 @@ namespace text_game
         //private int startingEnemyHealth;
         //private int totalEnemyDamage;       
 
-        int option;
         public bool running = true;
 
         private Player Player { get; set; }
@@ -27,6 +27,8 @@ namespace text_game
         private AbilityActions AbilityActions { get; set; }
         private Abilities Ability { get; set; }
         private Shop Shop { get; set; }
+
+        private Utils Utils { get; set; }
         //private HealthPotions HealthPotion { get; set; }
 
         //Enemy enemy = new Enemy();
@@ -52,6 +54,7 @@ namespace text_game
             ShieldPotion = shieldPotion;
             AbilityActions = abilityActions;
             Ability = ability;
+            Utils = new Utils();
             SetStartingValues();
         }
 
@@ -68,8 +71,7 @@ namespace text_game
         public void PromptSimulateAttacks()
         {
             Console.WriteLine("Insert Number of Times to Simulate");
-            String numTimes = Console.ReadLine();
-            int numTimesInt = Convert.ToInt32(numTimes);
+            int numTimesInt = Utils.GetIntInput(1, 100);
             SimulateAttacks(numTimesInt);
         }
 
@@ -98,19 +100,18 @@ namespace text_game
         public int MainMenu()
         {
             //bool startCase = true;
-            GameMessages.MainMenuText();          
-            String optionStr = Console.ReadLine();
-            option = Convert.ToInt32(optionStr);
+            GameMessages.MainMenuText();
+            int choice = Utils.GetIntInput(1, 3);
 
-            return option;
+            return choice;
         }
+
 
         public void EncounterOptions()
         {
             EnemyAlive();
 
-            String choice = Console.ReadLine();
-            int choiceInt = Convert.ToInt32(choice);
+            int choiceInt = Utils.GetIntInput(1, 5);
             switch (choiceInt)
             {
                 case 1:
@@ -158,8 +159,7 @@ namespace text_game
         {
             GameMessages.AbilityOptions(AbilityActions, Ability);
 
-            String choice = Console.ReadLine();
-            int choiceInt = Convert.ToInt32(choice);
+            int choiceInt = Utils.GetIntInput(0, 1);
 
             switch (choiceInt)
             {
@@ -267,6 +267,7 @@ namespace text_game
             switch (leave)
             {
                 case "yes":
+                case "y":
                     GameMessages.Divider(1);
                     if (Player.GetHealth() > 0)
                     {
@@ -280,6 +281,7 @@ namespace text_game
                     Statistics();
                     break;
                 case "no":
+                case "n":
                     EndEncounter();
                     break;
             }
@@ -304,8 +306,9 @@ namespace text_game
                 WeaponActions.IncrementWeaponBoost(EnemyActions);
              }
             GameMessages.DisplayEndEncounterStats(Player, EnemyActions, Level, HealthPotion, WeaponActions, ShieldPotion);
+            //EnemyActions.enemyTotalDamage = 0;
             EnemyActions.SetEnemyTotalDamageToZero(0);
-            Player.SetHealth(Player.GetHealth());
+            //Player.SetHealth(Player.GetHealth());
             EndEncounter();
         }
 
@@ -322,8 +325,7 @@ namespace text_game
             {
                 GameMessages.EndEncounterText();
 
-                String choice = Console.ReadLine();
-                int choiceInt = Convert.ToInt32(choice);
+                int choiceInt = Utils.GetIntInput(1, 5);
 
                 switch (choiceInt)
                 {

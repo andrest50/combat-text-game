@@ -9,8 +9,8 @@ namespace text_game
     public class Player
     {
         Random rand = new Random();
-        
-        public int health;
+
+        private int health;
         private int enemiesSlain;
         private int totalDamage;
         private int coins;
@@ -19,26 +19,31 @@ namespace text_game
         protected int exp;
         protected int encounterExp;
         protected int skillPoints;
-        private bool ran = false;
+        private bool ran;
 
-        public string PlayerName { get; set; }
+        public string playerName { get; set; }
 
         public Player() { }
 
         public Player(string name)
         {
-            PlayerName = name;
+            SetPlayerName(name);
+            SetRan(false);
             SetEnemiesSlain(0);
             SetHealth(100);
             SetCurrency(0);
             SetSkillPoints(0);
         }
 
-        //public void SetStartingValues()
-        //{
-        //    SetEnemiesSlain(0);          
-        //    SetHealth(100);
-        //}
+        public string GetPlayerName()
+        {
+            return playerName;
+        }
+
+        public void SetPlayerName(string playerName)
+        {
+            this.playerName = playerName;
+        }
 
         public int GetSkillPoints()
         {

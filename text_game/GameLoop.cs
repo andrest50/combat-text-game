@@ -24,7 +24,7 @@ namespace text_game
 
                     if(!player.GetRan())
                     {
-                        if (player.health < 1)
+                        if (player.GetHealth() < 1)
                         {
                             mechanics.GameOver();
                             mechanics.running = false;

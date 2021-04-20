@@ -14,9 +14,9 @@ namespace text_game
         //public List<String> weapons = new List<String> { "Wooden Sword", "Bronze Sword", "Sniper", "Tarp", "Silver Sword", "Rocket Launcher", "rip", "Gold Sword" };
         private List<Weapon> AllWeapons = new List<Weapon>();
         private Weapon Weapon;
-        private int Damage;
-        private double WeaponBoost;
-        private double WeaponScaling;
+        private int damage;
+        private double weaponBoost;
+        private double weaponScaling;
 
         public WeaponActions()
         {
@@ -130,23 +130,23 @@ namespace text_game
 
         public void SetWeaponScaling(double weaponScaling)
         {
-            this.WeaponScaling = weaponScaling;
+            this.weaponScaling = weaponScaling;
         }
 
         public void IncrementWeaponBoost(EnemyActions enemyActions)
         {
-            WeaponBoost += WeaponScaling * (0.00002 * (enemyActions.GetEnemyTotalDamage() + enemyActions.GetEnemyStartingHealth()));
-            WeaponScaling -= 0.005;
+            weaponBoost += weaponScaling * (0.00002 * (enemyActions.GetEnemyTotalDamage() + enemyActions.GetEnemyStartingHealth()));
+            weaponScaling -= 0.005;
         }
 
         public void SetWeaponBoost(double weaponBoost)
         {
-            this.WeaponBoost = weaponBoost;
+            this.weaponBoost = weaponBoost;
         }
 
         public double GetWeaponBoost()
         {
-            return WeaponBoost;
+            return weaponBoost;
         }
 
         public void SetWeapon(String thisWeapon)
@@ -181,23 +181,23 @@ namespace text_game
 
         public int GetWeaponMinDamage()
         {
-            return Convert.ToInt32(Weapon.MinimumDamage * WeaponBoost);
+            return Convert.ToInt32(Weapon.MinimumDamage * weaponBoost);
         }
 
         public int GetWeaponMaxDamage()
         {
-            return Convert.ToInt32(Weapon.MaximumDamage * WeaponBoost);
+            return Convert.ToInt32(Weapon.MaximumDamage * weaponBoost);
         }
 
         public void SetDamage(string weaponName)
         {
             Weapon = AllWeapons.Where(x => x.Name == weaponName).SingleOrDefault();
-            Damage = rand.Next(Convert.ToInt32(Weapon.MinimumDamage * WeaponBoost), Convert.ToInt32(Weapon.MaximumDamage * WeaponBoost) + 1);
+            damage = rand.Next(Convert.ToInt32(Weapon.MinimumDamage * weaponBoost), Convert.ToInt32(Weapon.MaximumDamage * weaponBoost) + 1);
         }
 
         public int GetDamage()
         {
-            return Damage;
+            return damage;
         }
     }
 }

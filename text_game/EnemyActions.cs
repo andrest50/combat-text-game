@@ -12,27 +12,25 @@ namespace text_game
 
         public List<String> Enemies = new List<String> { "Skeleton", "Zombie", "Warrior", "Assassin", "Reaper", "Archer" };
         public List<String> Bosses = new List<String> { "Raptor", "Giant", "Dementor" };     
-        //public List<Int32> enemiesMinDamage = new List<Int32> {12, 14, 8, 17, 15, 16 };
-        //public List<Int32> enemiesMaxDamage = new List<Int32> {18, 20, 15, 24, 22, 23 };
-        //public List<Int32> enemiesMinHealth = new List<Int32> {40, 30, 50, 20, 35, 25 };
-        //public List<Int32> enemiesMaxHealth = new List<Int32> {50, 45, 65, 30, 45, 40 };
         private List<Enemy> AllEnemies = new List<Enemy>();
         private List<Enemy> AllBosses = new List<Enemy>();
         private String enemy;
         private Enemy Enemy;
         public bool bossActive = false;
-        public int health;
-        private int Damage;
+        public int health { get; set; }
+        private int damage;
         private int enemyStartingHealth;
         private int enemyTotalDamage;
         private int dropHealthPotions;
-        private double difficultyBoost = 1.00;
-        private double difficultyScaling = 1.00;
+        private double difficultyBoost;
+        private double difficultyScaling;
 
         public EnemyActions ()
         {
             InitEnemies();
             InitBosses();
+            SetDifficultyBoost(1.00);
+            SetDifficultyScaling(1.00);
            // int randNum = rand.Next(6);
             //enemy = Enemies[randNum];
            // health = rand.Next(50);
@@ -237,33 +235,33 @@ namespace text_game
         {
             int randNum = rand.Next(6);
             enemy = Enemies[randNum];
-            Console.WriteLine(enemy);
+            //Console.WriteLine(enemy);
 
             return enemy;
         }
 
         public void SetDamage()
         {           
-            Damage = rand.Next(Enemy.MinimumDamage, (Enemy.MaximumDamage + 1));
+            damage = rand.Next(Enemy.MinimumDamage, (Enemy.MaximumDamage + 1));
         }
 
         public void SetDamage(Level level)
         {
          if (level.GetLevel() % 5 == 0 && level.GetLevel() != 0)
-                Damage = rand.Next(Enemy.MinimumDamage, (Enemy.MaximumDamage + 1));
+                damage = rand.Next(Enemy.MinimumDamage, (Enemy.MaximumDamage + 1));
          else
-            Damage = rand.Next(Convert.ToInt32(Enemy.MinimumDamage * difficultyBoost), Convert.ToInt32((Enemy.MaximumDamage * difficultyBoost + 1)));
+                damage = rand.Next(Convert.ToInt32(Enemy.MinimumDamage * difficultyBoost), Convert.ToInt32((Enemy.MaximumDamage * difficultyBoost + 1)));
         }
 
         public void SetDamage(String enemyName)
         {
             Enemy = AllEnemies.Where(x => x.Name == enemyName).SingleOrDefault();
-            Damage = rand.Next(Convert.ToInt32(Enemy.MinimumDamage * difficultyBoost), Convert.ToInt32((Enemy.MaximumDamage * difficultyBoost + 1)));
+            damage = rand.Next(Convert.ToInt32(Enemy.MinimumDamage * difficultyBoost), Convert.ToInt32((Enemy.MaximumDamage * difficultyBoost + 1)));
         }
 
         public int GetDamage()
         {         
-            return Damage;
+            return damage;
         }
 
         public int GetHealth()
@@ -326,6 +324,16 @@ namespace text_game
         public int GetEnemyMaxDamage()
         {
             return Convert.ToInt32(Enemy.MaximumDamage * difficultyBoost);
+        }
+
+        public double GetDifficultyScaling()
+        {
+            return difficultyScaling;
+        }
+
+        public void SetDifficultyScaling(double difficultyScaling)
+        {
+            this.difficultyScaling = difficultyScaling;
         }
 
     }
