@@ -135,7 +135,7 @@ namespace text_game
 
         public static void LeaveDungeonText()
         {
-            Console.WriteLine("\nYou exit the dungeon, succesful from your adventures!");
+            Console.WriteLine("\nYou exit the dungeon, successful from your adventures!");
         }
 
         public static void EndEncounterText()
@@ -202,12 +202,12 @@ namespace text_game
             Console.WriteLine("You took " + enemy.GetDamage() + " damage while running!");
         }
 
-        public static void StatisticsText(Player player, Level level, WeaponActions weapon, HealthPotions healthPotion, ShieldPotion shieldPotion)
+        public static void StatisticsText(Player player, WeaponActions weapon, HealthPotions healthPotion, ShieldPotion shieldPotion)
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("\nHealth: " + player.GetHealth());
-            Console.WriteLine("\nTotal Exp: " + level.GetExp());
-            Console.WriteLine("\nLevel: " + level.GetLevel());
+            Console.WriteLine("\nTotal Exp: " + player.GetExp());
+            Console.WriteLine("\nLevel: " + player.GetLevel());
             Console.WriteLine("\nCurrent Weapon Boost: " + weapon.GetWeaponBoost());
             Console.WriteLine("\n" + weapon.GetWeaponName() + "'s Durability: " + weapon.GetDurability());
             Console.WriteLine("\nNumber of Enemies Slain: " + player.GetEnemiesSlain());
@@ -215,7 +215,7 @@ namespace text_game
             Console.WriteLine("\nNumber of Health Potions: " + healthPotion.GetNumPotions());
             Console.WriteLine("\nNumber of Shield Potions: " + shieldPotion.GetNumPotions());
             Console.WriteLine("\nNumber of Coins: " + player.GetCurrency());
-            Console.WriteLine("\nSkill Points: " + level.GetSkillPoints());
+            Console.WriteLine("\nSkill Points: " + player.GetSkillPoints());
         }
 
         public void ShopWeaponsText(Shop shop, Player player, WeaponActions weapon)
@@ -248,12 +248,12 @@ namespace text_game
             Console.WriteLine("Maximum Damage: " + enemy.GetEnemyMaxDamage());
         }
       
-        public static void DisplayEndEncounterStats(Player player, EnemyActions enemy, Level level, HealthPotions healthPotion, WeaponActions weapon, ShieldPotion shieldPotion)
+        public static void DisplayEndEncounterStats(Player player, EnemyActions enemy, HealthPotions healthPotion, WeaponActions weapon, ShieldPotion shieldPotion)
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("End of Encounter Report:\n");
             DisplayEnemyStats(enemy);
-            DisplayPlayerStats(player, enemy, level, weapon);
+            DisplayPlayerStats(player, enemy, weapon);
             DisplayPotionStats(enemy, healthPotion, shieldPotion);
             //DisplayBoostStats(weapon, enemy);
         }
@@ -264,15 +264,15 @@ namespace text_game
             //Console.WriteLine(enemy.GetEnemy().Name + "'s Starting Health: " + enemy.GetEnemyStartingHealth());
         }
 
-        public static void DisplayPlayerStats(Player player, EnemyActions enemy, Level level, WeaponActions weapon)
+        public static void DisplayPlayerStats(Player player, EnemyActions enemy, WeaponActions weapon)
         {
             Console.WriteLine("Player Health: " + player.GetHealth());
             Console.WriteLine("Current Weapon: " + weapon.GetWeaponName());
             Console.WriteLine(weapon.GetWeaponName() + "'s Durability: " + weapon.GetDurability());
             //Console.WriteLine("Player Total Damage: " + player.GetTotalDamage());
-            Console.WriteLine("Exp from " + enemy.GetEnemy().Name + ": " + level.GetEncounterExp());
-            Console.WriteLine("Total Exp: " + level.GetExp());
-            Console.WriteLine("Current Level: " + level.GetLevel());
+            Console.WriteLine("Exp from " + enemy.GetEnemy().Name + ": " + player.GetEncounterExp());
+            Console.WriteLine("Total Exp: " + player.GetExp());
+            Console.WriteLine("Current Level: " + player.GetLevel());
             //Console.WriteLine("Enemies Slain: " + player.AddEnemiesSlain());
             Console.WriteLine("Number of Coins From " + enemy.GetEnemy().Name + ": " + player.GetEncounterCurrency());
             //Console.WriteLine("Number of Coins: " + player.GetCurrency());

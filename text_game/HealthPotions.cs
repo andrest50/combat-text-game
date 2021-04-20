@@ -15,16 +15,8 @@ namespace text_game
             SetHealthPotionAmount(30);
         }
 
-        //public HealthPotions(int numHealthPotions, int healthPotionAmount)
-        //{
-
-        //}
-
-        private int numHealthPotions { get; set; }
-        private int healthPotionAmount { get; set; }
-
-        //private int numHealthPotions;
-        //private int healthPotionAmount;
+        private int numHealthPotions;
+        private int healthPotionAmount;
 
         public int GetHealthPotionAmount()
         {

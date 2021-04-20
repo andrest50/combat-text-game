@@ -13,24 +13,23 @@ namespace text_game
         {
             GameMessages messages = new GameMessages();
             EnemyActions enemyActions = new EnemyActions();
-            Enemy enemy = new Enemy();
             WeaponActions weaponActions = new WeaponActions();
-            Level level = new Level();
             PotionActions potionActions = new PotionActions();
             HealthPotions healthPotion = new HealthPotions();
-            Weapon weapon = new Weapon();
-            string playerName = GameMessages.Welcome();
-            Player player = new Player(playerName);
+            Player player = new Player();
             ShieldPotion shieldPotion = new ShieldPotion();
-            AbilityActions abilityActions = new AbilityActions(weaponActions, level);
+            AbilityActions abilityActions = new AbilityActions(weaponActions);
             Abilities ability = new Abilities();
             Shop shop = new Shop(player, weaponActions, healthPotion, messages, shieldPotion);
-            GameMechanics mechanics = new GameMechanics(player, enemyActions, enemy, weapon, weaponActions, messages, level, potionActions, healthPotion, shop, shieldPotion, abilityActions, ability);
-            
+            GameMechanics mechanics = new GameMechanics(player, enemyActions, weaponActions, messages, potionActions, healthPotion, shop, shieldPotion, abilityActions, ability);
+
+            string playerName = GameMessages.Welcome();
+            player.SetPlayerName(playerName);
+
             int option = mechanics.MainMenu();          
             bool startCase = true;
 
-            while(startCase)
+            while (startCase)
             {
                 switch (option)
                 {

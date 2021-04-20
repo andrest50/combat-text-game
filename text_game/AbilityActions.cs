@@ -9,7 +9,6 @@ namespace text_game
     public class AbilityActions : Player
     {
         private WeaponActions WeaponActions { get; set; }
-        private Level Level { get; set; }
 
         public List<Abilities> AllAbilities = new List<Abilities>();
         public List<Abilities> OwnedAbilities = new List<Abilities>();        
@@ -29,10 +28,9 @@ namespace text_game
             //SetStartingWeapon();
         }
 
-        public AbilityActions(WeaponActions weapon, Level level)
+        public AbilityActions(WeaponActions weapon)
         {
             WeaponActions = weapon;
-            Level = level;
             InitAbilities();
         }
 
@@ -125,7 +123,7 @@ namespace text_game
 
         public void CheckBuyCost(String name, int cost, bool bought)
         {
-            if (Level.GetSkillPoints() >= cost && bought == false)
+            if (GetSkillPoints() >= cost && bought == false)
             {
                 AbilityPurchased(name);
 
@@ -134,7 +132,7 @@ namespace text_game
                     FireballBought = true;
                     OwnedAbilities.Add(FireballAbility());
                 }
-                Level.SetSkillPoints(Level.GetSkillPoints() - cost);
+                SetSkillPoints(GetSkillPoints() - cost);
             }
             else if (bought == true)
                 Console.WriteLine("You already own that ability");
@@ -163,7 +161,7 @@ namespace text_game
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Welcome to the Abilities Shop");
-            Console.WriteLine("Skill Points: " + Level.GetSkillPoints());
+            Console.WriteLine("Skill Points: " + GetSkillPoints());
             Console.WriteLine("\n1. Fireball");
             Console.WriteLine("2. Orb (Coming Soon)");
             Console.WriteLine("3. Exit");
@@ -173,7 +171,7 @@ namespace text_game
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Welcome to the Abilities Menu");
-            Console.WriteLine("Skill Points: " + Level.GetSkillPoints());
+            Console.WriteLine("Skill Points: " + GetSkillPoints());
             Console.WriteLine("\n1. Buy Abilities");
             Console.WriteLine("2. Upgrade Abilities (Coming Soon)");
             Console.WriteLine("3. Exit");

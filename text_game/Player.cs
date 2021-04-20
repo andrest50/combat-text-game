@@ -10,6 +10,7 @@ namespace text_game
     {
         Random rand = new Random();
 
+        //public Level level { get; set; }
         private int health;
         private int enemiesSlain;
         private int totalDamage;
@@ -21,9 +22,18 @@ namespace text_game
         protected int skillPoints;
         private bool ran;
 
+        private List<Int32> levelUpExp = new List<Int32> { 10, 30, 50, 70, 90, 110, 130, 150, 180, 210, 240, 270, 300, 340, 380, 420 };
+
         public string playerName { get; set; }
 
-        public Player() { }
+        public Player() 
+        {
+            SetRan(false);
+            SetEnemiesSlain(0);
+            SetHealth(100);
+            SetCurrency(0);
+            SetSkillPoints(0);
+        }
 
         public Player(string name)
         {
@@ -130,6 +140,74 @@ namespace text_game
         public void SetEnemiesSlain(int numEnemiesSlain)
         {
             this.enemiesSlain = numEnemiesSlain;
+        }
+
+        public void SetLevel()
+        {
+            if (currentLevel == 0 && exp >= levelUpExp[0])
+            {
+                currentLevel++;
+                Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
+                Console.WriteLine("                             LEVEL UP (" + currentLevel + ")");
+                Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
+                SetSkillPoints(GetSkillPoints() + 1);
+            }
+            else if (exp >= levelUpExp[currentLevel])
+                while (exp >= levelUpExp[currentLevel])
+                {
+                    currentLevel++;
+                    Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
+                    Console.WriteLine("                             LEVEL UP (" + currentLevel + ")");
+                    Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
+                    SetSkillPoints(GetSkillPoints() + 1);
+                }
+        }
+
+        public void SetLevelDirect(int currentLevel)
+        {
+            this.currentLevel = currentLevel;
+        }
+
+        public int GetLevel()
+        {
+            return currentLevel;
+        }
+
+        public void SetStartingExp()
+        {
+            SetExp(0);
+            SetLevelDirect(0);
+        }
+
+        public int GetEncounterExp()
+        {
+            return encounterExp;
+        }
+
+        public void SetEncounterExp(int health, int damage, EnemyActions enemy)
+        {
+            double multiplier = 1.00;
+            if (enemy.bossActive == true)
+                multiplier = 0.50;
+
+            encounterExp = Convert.ToInt32((multiplier * ((health + damage) / 10)));
+        }
+
+        public int GetExpIncrement()
+        {
+            exp += encounterExp;
+
+            return exp;
+        }
+
+        public int GetExp()
+        {
+            return exp;
+        }
+
+        public void SetExp(int exp)
+        {
+            this.exp = exp;
         }
 
     }

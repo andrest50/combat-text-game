@@ -8,9 +8,7 @@ using System.Threading.Tasks;
 namespace text_game
 {
     public class GameMechanics
-    {
-        //private int startingEnemyHealth;
-        //private int totalEnemyDamage;       
+    { 
 
         public bool running = true;
 
@@ -20,34 +18,27 @@ namespace text_game
         private GameMessages Messages { get; set; }
         private WeaponActions WeaponActions { get; set; }
         private Weapon Weapon { get; set; }
-        private Level Level { get; set; }
+        //private Level Level { get; set; }
         private PotionActions PotionActions { get; set; }
         private ShieldPotion ShieldPotion { get; set; }
         private HealthPotions HealthPotion { get; set; }
         private AbilityActions AbilityActions { get; set; }
         private Abilities Ability { get; set; }
         private Shop Shop { get; set; }
-
         private Utils Utils { get; set; }
-        //private HealthPotions HealthPotion { get; set; }
-
-        //Enemy enemy = new Enemy();
-        //Random rand = new Random();
-        //Text txt = new ConsoleApplication1.Text(); 
 
         public GameMechanics() { }            
 
-        public GameMechanics(Player player, EnemyActions enemyActions, Enemy enemy, Weapon weapon, WeaponActions weaponActions, 
-            GameMessages messages, Level level, PotionActions potionActions, HealthPotions healthPotion, Shop shop, 
+        public GameMechanics(Player player, EnemyActions enemyActions, WeaponActions weaponActions, 
+            GameMessages messages, PotionActions potionActions, HealthPotions healthPotion, Shop shop, 
             ShieldPotion shieldPotion, AbilityActions abilityActions, Abilities ability)
         {
             Player = player;
+            //Level = player.level;
             EnemyActions = enemyActions;
-            Enemy = enemy;
-            Weapon = weapon;
             WeaponActions = weaponActions;
+            Weapon = WeaponActions.SetStartingWeapon();
             Messages = messages;
-            Level = level;
             PotionActions = potionActions;
             HealthPotion = healthPotion;
             Shop = shop;
@@ -60,12 +51,8 @@ namespace text_game
 
         private void SetStartingValues()
         {
-            //Player.SetStartingValues();
-            Weapon = WeaponActions.SetStartingWeapon();
             WeaponActions.SetStartingValues();
-            Level.SetStartingExp();
-            //HealthPotion = HealthPotion.SetStartingPotion();
-            //HealthPotion.SetStartingValues();
+            Player.SetStartingExp();
         }
 
         public void PromptSimulateAttacks()
@@ -92,7 +79,7 @@ namespace text_game
                     SetStartingEnemyValues();
                 }                 
             }
-            GameMessages.DisplayEndEncounterStats(Player, EnemyActions, Level, HealthPotion, WeaponActions, ShieldPotion);
+            GameMessages.DisplayEndEncounterStats(Player, EnemyActions, HealthPotion, WeaponActions, ShieldPotion);
             PromptSimulateAttacks();
 
         }
@@ -135,7 +122,7 @@ namespace text_game
       
         public void SetStartingEnemyValues()
         {
-           Enemy = EnemyActions.SetAttributes(Level);
+           Enemy = EnemyActions.SetAttributes(Player);
         }
 
         public void EnemyAppear()
@@ -184,7 +171,7 @@ namespace text_game
 
         private void Fireball()
         {
-            EnemyActions.SetDamage(Level);
+            EnemyActions.SetDamage(Player);
             //Weapon = WeaponActions.GetWeapon();
             //WeaponActions.SetDamage(Weapon.Name);
             AbilityActions.SetDamage(Ability.Name);
@@ -291,9 +278,9 @@ namespace text_game
         {
             if(Player.GetRan() == false)
             {
-                Level.SetEncounterExp(EnemyActions.GetEnemyStartingHealth(), EnemyActions.GetEnemyTotalDamage(), EnemyActions);
-                Level.GetExpIncrement();
-                Level.SetLevel();
+                Player.SetEncounterExp(EnemyActions.GetEnemyStartingHealth(), EnemyActions.GetEnemyTotalDamage(), EnemyActions);
+                Player.GetExpIncrement();
+                Player.SetLevel();
                 Player.SetCurrency(EnemyActions.GetEnemyStartingHealth(), EnemyActions.GetEnemyTotalDamage());
                 EnemyActions.SetDropPotions(HealthPotion.GetNumPotions());
                 HealthPotion.IncrementNumHealthPotions(EnemyActions.GetDropPotions());
@@ -305,7 +292,7 @@ namespace text_game
                 EnemyActions.IncrementDifficultyBoost();
                 WeaponActions.IncrementWeaponBoost(EnemyActions);
              }
-            GameMessages.DisplayEndEncounterStats(Player, EnemyActions, Level, HealthPotion, WeaponActions, ShieldPotion);
+            GameMessages.DisplayEndEncounterStats(Player, EnemyActions, HealthPotion, WeaponActions, ShieldPotion);
             //EnemyActions.enemyTotalDamage = 0;
             EnemyActions.SetEnemyTotalDamageToZero(0);
             //Player.SetHealth(Player.GetHealth());
@@ -314,7 +301,7 @@ namespace text_game
 
         private void Statistics()
         {
-            GameMessages.StatisticsText(Player, Level, WeaponActions, HealthPotion, ShieldPotion);
+            GameMessages.StatisticsText(Player, WeaponActions, HealthPotion, ShieldPotion);
         }
 
         private void EndEncounter()
@@ -369,7 +356,7 @@ namespace text_game
 
         private void Attack()
         {
-            EnemyActions.SetDamage(Level);
+            EnemyActions.SetDamage(Player);
             Weapon = WeaponActions.GetWeapon();
             WeaponActions.SetDamage(Weapon.Name);
             Player.SetTotalDamage(WeaponActions.GetDamage());

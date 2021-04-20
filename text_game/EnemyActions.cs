@@ -157,11 +157,11 @@ namespace text_game
             AllBosses.Add(boss3);
         }
 
-        public Enemy SetAttributes(Level level)
+        public Enemy SetAttributes(Player player)
         {
-            if (level.GetLevel() % 5 == 0 && level.GetLevel() != 0)
+            if (player.GetLevel() % 5 == 0 && player.GetLevel() != 0)
             {
-                SetBoss(level.GetLevel());
+                SetBoss(player.GetLevel());
                 SetBossHealth(Enemy.Name);
             }
             else
@@ -245,9 +245,9 @@ namespace text_game
             damage = rand.Next(Enemy.MinimumDamage, (Enemy.MaximumDamage + 1));
         }
 
-        public void SetDamage(Level level)
+        public void SetDamage(Player player)
         {
-         if (level.GetLevel() % 5 == 0 && level.GetLevel() != 0)
+         if (player.GetLevel() % 5 == 0 && player.GetLevel() != 0)
                 damage = rand.Next(Enemy.MinimumDamage, (Enemy.MaximumDamage + 1));
          else
                 damage = rand.Next(Convert.ToInt32(Enemy.MinimumDamage * difficultyBoost), Convert.ToInt32((Enemy.MaximumDamage * difficultyBoost + 1)));
