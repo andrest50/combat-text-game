@@ -31,9 +31,6 @@ namespace text_game
             InitBosses();
             SetDifficultyBoost(1.00);
             SetDifficultyScaling(1.00);
-           // int randNum = rand.Next(6);
-            //enemy = Enemies[randNum];
-           // health = rand.Next(50);
         }
 
         private void InitEnemies()
