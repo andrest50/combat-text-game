@@ -27,7 +27,6 @@ namespace text_game
             GameMessages messages = new GameMessages();
             EnemyActions enemyActions = new EnemyActions();
             WeaponActions weaponActions = new WeaponActions();
-            PotionActions potionActions = new PotionActions();
             HealthPotions healthPotion = new HealthPotions();
             Player player = new Player();
             ShieldPotion shieldPotion = new ShieldPotion();
@@ -35,7 +34,7 @@ namespace text_game
             Abilities ability = new Abilities();
             Utils utils = new Utils();
             Shop shop = new Shop(player, weaponActions, healthPotion, messages, shieldPotion);
-            GameMechanics mechanics = new GameMechanics(player, enemyActions, weaponActions, messages, potionActions, healthPotion, shop, shieldPotion, abilityActions, ability, utils);
+            GameMechanics mechanics = new GameMechanics(player, enemyActions, weaponActions, messages, healthPotion, shop, shieldPotion, abilityActions, ability, utils);
 
             string playerName = GameMessages.Welcome();
             player.SetPlayerName(playerName);

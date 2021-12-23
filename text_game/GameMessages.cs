@@ -8,11 +8,6 @@ namespace text_game
 {
     public class GameMessages
     {
-        //Instance instance = new Instance();
-        //Player player = new Player();
-        //Enemy enemy = new Enemy();
-
-        //private static int option;
 
         public static string Welcome()
         {

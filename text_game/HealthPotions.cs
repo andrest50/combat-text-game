@@ -1,5 +1,4 @@
-﻿using text_game.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +14,6 @@ namespace text_game
             SetHealthPotionAmount(30);
         }
 
-        private int numHealthPotions;
         private int healthPotionAmount;
 
         public int GetHealthPotionAmount()
@@ -26,21 +24,6 @@ namespace text_game
         public void SetHealthPotionAmount(int healthPotionAmount)
         {
             this.healthPotionAmount = healthPotionAmount;
-        }
-
-        public int GetNumPotions()
-        {
-            return numHealthPotions;
-        }
-
-        public void SetNumPotions(int numHealthPotions)
-        {
-            this.numHealthPotions = numHealthPotions;
-        }
-
-        public void IncrementNumHealthPotions(int numHealthPotions)
-        {
-            this.numHealthPotions += numHealthPotions;
         }
     }
 }

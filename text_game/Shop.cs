@@ -217,7 +217,7 @@ namespace text_game
                 {
                     if (item == "Health Potion")
                     {
-                        HealthPotions.IncrementNumHealthPotions(potionQuantity);
+                        HealthPotions.IncrementNumPotions(potionQuantity);
                         Console.WriteLine("You now have " + HealthPotions.GetNumPotions() + " health potions.");
                     }
                     else if (item == "Shield Potion")

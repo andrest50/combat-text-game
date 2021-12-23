@@ -8,20 +8,32 @@ namespace text_game
 {
     public class Potion
     {
-        public String Name { get; set; }
-        //  public int numHealthPotions { get; set; }
-        //  public int healthPotionAmount { get; set; }
-        //private int numPotions { get; set; }
+        public int NumPotions { get; set; }
 
-        //public int GetNumSPotions()
-        //{
-        //    return numPotions;
-        //}
+        public Potion()
+        {
 
-        //public void SetNumPotions(int numPotions)
-        //{
-        //    this.numPotions = numPotions;
-        //}
+        }
+
+        public Potion(int numPotions)
+        {
+            NumPotions = numPotions;
+        }
+
+        public int GetNumPotions()
+        {
+            return NumPotions;
+        }
+
+        public void SetNumPotions(int numPotions)
+        {
+            this.NumPotions = numPotions;
+        }
+
+        public void IncrementNumPotions(int numPotions)
+        {
+            this.NumPotions += numPotions;
+        }
 
     }
 }

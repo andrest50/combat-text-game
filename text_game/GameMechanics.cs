@@ -16,7 +16,6 @@ namespace text_game
         private GameMessages Messages { get; set; }
         private WeaponActions WeaponActions { get; set; }
         private Weapon Weapon { get; set; }
-        private PotionActions PotionActions { get; set; }
         private ShieldPotion ShieldPotion { get; set; }
         private HealthPotions HealthPotion { get; set; }
         private AbilityActions AbilityActions { get; set; }
@@ -27,7 +26,7 @@ namespace text_game
         public GameMechanics() { }            
 
         public GameMechanics(Player player, EnemyActions enemyActions, WeaponActions weaponActions, 
-            GameMessages messages, PotionActions potionActions, HealthPotions healthPotion, Shop shop, 
+            GameMessages messages, HealthPotions healthPotion, Shop shop, 
             ShieldPotion shieldPotion, AbilityActions abilityActions, Abilities ability, Utils utils)
         {
             Player = player;
@@ -35,7 +34,6 @@ namespace text_game
             WeaponActions = weaponActions;
             Weapon = WeaponActions.SetStartingWeapon();
             Messages = messages;
-            PotionActions = potionActions;
             HealthPotion = healthPotion;
             Shop = shop;
             ShieldPotion = shieldPotion;
@@ -240,7 +238,7 @@ namespace text_game
             Statistics();
         }
 
-        public void LeaveDungeon()
+        public bool LeaveDungeon()
         {
             //Glitch where if you type yes after Yes the first time, it starts next instance.
             String leave;
@@ -261,11 +259,10 @@ namespace text_game
                     }
                     running = false;
                     Statistics();
-                    break;
-                case "no":
-                case "n":
+                    return true;
+                default:
                     EndEncounter();
-                    break;
+                    return false;
             }
         }        
 
@@ -280,7 +277,7 @@ namespace text_game
                 Player.AddEnemiesSlain();
                 EnemyActions.SetDropPotions();
                 int healthPotionsDropped = EnemyActions.GetDropPotions();
-                HealthPotion.IncrementNumHealthPotions(healthPotionsDropped);
+                HealthPotion.IncrementNumPotions(healthPotionsDropped);
                 if (EnemyActions.bossActive == true)
                 {
                     EnemyActions.NoLongerBoss();
@@ -318,8 +315,8 @@ namespace text_game
                         GameLoop.Loop(EnemyActions, Player, Messages, this, WeaponActions);
                         break;
                     case 2:
-                        LeaveDungeon();
-                        loop = false;
+                        if (LeaveDungeon())
+                            loop = false;
                         break;
                     case 3:
                         Statistics();

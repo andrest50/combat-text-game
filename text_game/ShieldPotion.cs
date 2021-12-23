@@ -15,7 +15,6 @@ namespace text_game
             SetShieldActive(false);
         }
 
-        private int numShieldPotions;
         private int shieldTurns;
         private bool shieldActive;
 
@@ -39,19 +38,5 @@ namespace text_game
             this.shieldActive = shieldActive;
         }
 
-        public int GetNumPotions()
-        {
-            return numShieldPotions;
-        }
-
-        public void SetNumPotions(int numShieldPotions)
-        {
-            this.numShieldPotions = numShieldPotions;
-        }
-
-        public void IncrementNumPotions(int numShieldPotions)
-        {
-            this.numShieldPotions += numShieldPotions;
-        }
     }
 }
