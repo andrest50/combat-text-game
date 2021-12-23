@@ -6,16 +6,5 @@ public class Extra
 	{
        
     }
-
-    public void Welcome()
-    {
-        Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
-        Console.WriteLine("#           #  # # # #  #        # # # #  # # # #  # #     # #  # # # #     ");
-        Console.WriteLine(" #         #   #        #        #        #     #  #  #   #  #  #                ");
-        Console.WriteLine("  #   #   #    # # # #  #        #        #     #  #   # #   #  # # # #          ");
-        Console.WriteLine("   # # # #     #        #        #        #     #  #    #    #  #             ");
-        Console.WriteLine("    #   #      # # # #  # # # #  # # # #  # # # #  #         #  # # # #       ");
-        Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =\n");
-    }
        
 }

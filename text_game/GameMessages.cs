@@ -91,11 +91,6 @@ namespace text_game
             Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
             Console.WriteLine("                         F I R E B A L L");         
             Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
-            //Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
-            //Console.WriteLine("####  #   ####    ###  ###    #####  #    #    ");
-            //Console.WriteLine("##    #   #  ##   ###  #####  # - #  #    #    ");
-            //Console.WriteLine("#     #   #   #   ###  ###    #   #  ###  ###   ");
-            //Console.WriteLine("= = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =");
         }
 
         public static void CooldownNotComplete()
@@ -261,6 +256,7 @@ namespace text_game
         public static void DisplayEnemyStats(EnemyActions enemy)
         {
             Console.WriteLine(enemy.GetEnemy().Name + "'s Total Damage: " + enemy.GetEnemyTotalDamage());
+            Console.WriteLine("Enemy difficulty boost: " + enemy.GetDifficultyBoost());
             //Console.WriteLine(enemy.GetEnemy().Name + "'s Starting Health: " + enemy.GetEnemyStartingHealth());
         }
 

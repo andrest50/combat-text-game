@@ -16,5 +16,7 @@ namespace text_game
         public double OneHealthPotionDropRate { get; set; }
         public double TwoHealthPotionDropRate { get; set; }
         public double ThreeHealthPotionDropRate { get; set; }
+        public int HealthPotionDropCount { get; set; }
+
     }
 }

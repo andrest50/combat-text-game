@@ -10,8 +10,6 @@ namespace text_game
     {
         Random rand = new Random();
 
-        public List<String> Enemies = new List<String> { "Skeleton", "Zombie", "Warrior", "Assassin", "Reaper", "Archer" };
-        public List<String> Bosses = new List<String> { "Raptor", "Giant", "Dementor" };     
         private List<Enemy> AllEnemies = new List<Enemy>();
         private List<Enemy> AllBosses = new List<Enemy>();
         private String enemy;
@@ -114,6 +112,7 @@ namespace text_game
         {
             AllBosses = new List<Enemy>();
 
+            // Level 5 Boss
             var boss1 = new Enemy()
             {
                 Name = "Raptor",
@@ -121,12 +120,11 @@ namespace text_game
                 MaximumDamage = 25,
                 MinimumHealth = 100,
                 MaximumHealth = 110,
-                OneHealthPotionDropRate = .90,
-                TwoHealthPotionDropRate = .50,
-                ThreeHealthPotionDropRate = .30
+                HealthPotionDropCount = 6
             };
             AllBosses.Add(boss1);
 
+            // Level 10 Boss
             var boss2 = new Enemy()
             {
                 Name = "Giant",
@@ -134,12 +132,11 @@ namespace text_game
                 MaximumDamage = 28,
                 MinimumHealth = 150,
                 MaximumHealth = 160,
-                OneHealthPotionDropRate = .95,
-                TwoHealthPotionDropRate = .60,
-                ThreeHealthPotionDropRate = .40
+                HealthPotionDropCount = 8
             };
             AllBosses.Add(boss2);
 
+            // Level 15 Boss
             var boss3 = new Enemy()
             {
                 Name = "Dementor",
@@ -147,9 +144,7 @@ namespace text_game
                 MaximumDamage = 34,
                 MinimumHealth = 200,
                 MaximumHealth = 210,
-                OneHealthPotionDropRate = .99,
-                TwoHealthPotionDropRate = .70,
-                ThreeHealthPotionDropRate = .50
+                HealthPotionDropCount = 10
             };
             AllBosses.Add(boss3);
         }
@@ -159,14 +154,17 @@ namespace text_game
             if (player.GetLevel() % 5 == 0 && player.GetLevel() != 0)
             {
                 SetBoss(player.GetLevel());
-                SetBossHealth(Enemy.Name);
+                if (Enemy != null) {
+                    SetBossHealth(Enemy.Name);
+                    Enemy = GetEnemy();
+                    SetEnemyStartingHealth(GetHealth());
+                    return Enemy;
+                }
             }
-            else
-            {
-                bossActive = false; 
-                SetEnemy(GetRandomEnemy());
-                SetHealth(Enemy.Name);
-            }
+            bossActive = false; 
+            SetEnemy(GetRandomEnemy());
+            SetHealth(Enemy.Name);
+
             Enemy = GetEnemy();
             SetEnemyStartingHealth(GetHealth());
 
@@ -185,9 +183,20 @@ namespace text_game
             Console.WriteLine(Enemy);
         }
 
+        public void NoLongerBoss()
+        {
+            if(bossActive == true)
+            {
+                AllBosses.Remove(Enemy);
+                Console.WriteLine(AllBosses);
+            }
+        }
+
         public void SetDropPotions(int numPotions)
         {
-            if (rand.NextDouble() > (1 - Enemy.ThreeHealthPotionDropRate))
+            if (Enemy.HealthPotionDropCount > 0)
+                dropHealthPotions = Enemy.HealthPotionDropCount;
+            else if (rand.NextDouble() > (1 - Enemy.ThreeHealthPotionDropRate))
                 dropHealthPotions = 3;
             else if (rand.NextDouble() > (1 - Enemy.TwoHealthPotionDropRate))
                 dropHealthPotions = 2;
@@ -199,7 +208,7 @@ namespace text_game
 
         public void IncrementDifficultyBoost()
         {
-            difficultyBoost += Math.Log10(1 + (0.0001 * (enemyTotalDamage + enemyStartingHealth)));
+            difficultyBoost += Math.Log10(1 + (0.0002 * (enemyTotalDamage + enemyStartingHealth)));
             difficultyScaling -= Math.Log10(difficultyBoost);
         }
 
@@ -230,9 +239,8 @@ namespace text_game
 
         public String GetRandomEnemy()
         {
-            int randNum = rand.Next(6);
-            enemy = Enemies[randNum];
-            //Console.WriteLine(enemy);
+            int randNum = rand.Next(AllEnemies.Count());
+            enemy = AllEnemies[randNum].Name;
 
             return enemy;
         }
@@ -244,7 +252,7 @@ namespace text_game
 
         public void SetDamage(Player player)
         {
-         if (player.GetLevel() % 5 == 0 && player.GetLevel() != 0)
+         if (bossActive)
                 damage = rand.Next(Enemy.MinimumDamage, (Enemy.MaximumDamage + 1));
          else
                 damage = rand.Next(Convert.ToInt32(Enemy.MinimumDamage * difficultyBoost), Convert.ToInt32((Enemy.MaximumDamage * difficultyBoost + 1)));

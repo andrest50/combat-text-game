@@ -15,9 +15,9 @@ namespace text_game
             while (mechanics.running)
             {
                 mechanics.SetStartingEnemyValues();
-                mechanics.EnemyAppear();             
+                mechanics.EnemyAppear();
 
-                while (enemyActions.health > 0)
+                while (enemyActions.GetHealth() > 0)
                 {                    
                     //mechanics.PromptSimulateAttacks();
                     mechanics.EncounterOptions();
