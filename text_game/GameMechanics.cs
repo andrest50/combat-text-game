@@ -16,7 +16,6 @@ namespace text_game
         private GameMessages Messages { get; set; }
         private WeaponActions WeaponActions { get; set; }
         private Weapon Weapon { get; set; }
-        //private Level Level { get; set; }
         private PotionActions PotionActions { get; set; }
         private ShieldPotion ShieldPotion { get; set; }
         private HealthPotions HealthPotion { get; set; }
@@ -32,7 +31,6 @@ namespace text_game
             ShieldPotion shieldPotion, AbilityActions abilityActions, Abilities ability, Utils utils)
         {
             Player = player;
-            //Level = player.level;
             EnemyActions = enemyActions;
             WeaponActions = weaponActions;
             Weapon = WeaponActions.SetStartingWeapon();
@@ -84,7 +82,6 @@ namespace text_game
 
         public int MainMenu()
         {
-            //bool startCase = true;
             GameMessages.MainMenuText();
             int choice = Utils.GetIntInput(1, 3);
 
@@ -169,16 +166,15 @@ namespace text_game
 
         private void Fireball()
         {
-            EnemyActions.SetDamage(Player);
+            EnemyActions.SetDamage();
             //Weapon = WeaponActions.GetWeapon();
             //WeaponActions.SetDamage(Weapon.Name);
             AbilityActions.SetDamage(Ability.Name);
             Player.SetTotalDamage(AbilityActions.GetDamage());
-            EnemyActions.SetEnemyTotalDamage(EnemyActions.GetDamage());
+            EnemyActions.AddEnemyTotalDamage(EnemyActions.GetDamage());
             ShieldActiveCheck();
             Ability.Cooldown = 3;
             EnemyActions.SetHealth(EnemyActions.GetHealth() - AbilityActions.GetDamage());
-            //EnemyActions.health -= AbilityActions.GetDamage();
             GameMessages.DealingAbilityDamageText(EnemyActions, AbilityActions);
         }
 
@@ -282,7 +278,7 @@ namespace text_game
                 Player.SetLevel();
                 Player.SetCurrency(EnemyActions.GetEnemyStartingHealth(), EnemyActions.GetEnemyTotalDamage());
                 Player.AddEnemiesSlain();
-                EnemyActions.SetDropPotions(HealthPotion.GetNumPotions());
+                EnemyActions.SetDropPotions();
                 int healthPotionsDropped = EnemyActions.GetDropPotions();
                 HealthPotion.IncrementNumHealthPotions(healthPotionsDropped);
                 if (EnemyActions.bossActive == true)
@@ -294,7 +290,7 @@ namespace text_game
                 WeaponActions.IncrementWeaponBoost(EnemyActions);
              }
             GameMessages.DisplayEndEncounterStats(Player, EnemyActions, HealthPotion, WeaponActions, ShieldPotion);
-            EnemyActions.SetEnemyTotalDamageToZero(0);
+            EnemyActions.SetEnemyTotalDamage(0);
             //Player.SetHealth(Player.GetHealth());
             EndEncounter();
         }
@@ -356,15 +352,14 @@ namespace text_game
 
         private void Attack()
         {
-            EnemyActions.SetDamage(Player);
+            EnemyActions.SetDamage();
             Weapon = WeaponActions.GetWeapon();
             WeaponActions.SetDamage(Weapon.Name);
             Player.SetTotalDamage(WeaponActions.GetDamage());
-            EnemyActions.SetEnemyTotalDamage(EnemyActions.GetDamage());
+            EnemyActions.AddEnemyTotalDamage(EnemyActions.GetDamage());
             ShieldActiveCheck();
             DecrementCooldowns();
             EnemyActions.SetHealth(EnemyActions.GetHealth() - WeaponActions.GetDamage());
-            //EnemyActions.health -= WeaponActions.GetDamage();
             GameMessages.DealingDamageText(EnemyActions, WeaponActions);
         }
 

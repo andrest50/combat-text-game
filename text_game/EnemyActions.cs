@@ -12,7 +12,6 @@ namespace text_game
 
         private List<Enemy> AllEnemies = new List<Enemy>();
         private List<Enemy> AllBosses = new List<Enemy>();
-        private String enemy;
         private Enemy Enemy;
         public bool bossActive = false;
         public int health { get; set; }
@@ -21,14 +20,12 @@ namespace text_game
         private int enemyTotalDamage;
         private int dropHealthPotions;
         private double difficultyBoost;
-        private double difficultyScaling;
 
         public EnemyActions ()
         {
             InitEnemies();
             InitBosses();
             SetDifficultyBoost(1.00);
-            SetDifficultyScaling(1.00);
         }
 
         private void InitEnemies()
@@ -188,11 +185,10 @@ namespace text_game
             if(bossActive == true)
             {
                 AllBosses.Remove(Enemy);
-                Console.WriteLine(AllBosses);
             }
         }
 
-        public void SetDropPotions(int numPotions)
+        public void SetDropPotions()
         {
             if (Enemy.HealthPotionDropCount > 0)
                 dropHealthPotions = Enemy.HealthPotionDropCount;
@@ -206,10 +202,14 @@ namespace text_game
                 dropHealthPotions = 0;
         }
 
+        public int GetDropPotions()
+        {
+            return dropHealthPotions;
+        }
+
         public void IncrementDifficultyBoost()
         {
             difficultyBoost += Math.Log10(1 + (0.0002 * (enemyTotalDamage + enemyStartingHealth)));
-            difficultyScaling -= Math.Log10(difficultyBoost);
         }
 
         public void SetDifficultyBoost(double difficultyBoost)
@@ -220,11 +220,6 @@ namespace text_game
         public double GetDifficultyBoost()
         {
             return difficultyBoost;
-        }
-
-        public int GetDropPotions()
-        {
-            return dropHealthPotions;
         }
 
         public Enemy GetEnemy()
@@ -240,28 +235,15 @@ namespace text_game
         public String GetRandomEnemy()
         {
             int randNum = rand.Next(AllEnemies.Count());
-            enemy = AllEnemies[randNum].Name;
-
-            return enemy;
+            return AllEnemies[randNum].Name;
         }
 
         public void SetDamage()
-        {           
-            damage = rand.Next(Enemy.MinimumDamage, (Enemy.MaximumDamage + 1));
-        }
-
-        public void SetDamage(Player player)
         {
          if (bossActive)
                 damage = rand.Next(Enemy.MinimumDamage, (Enemy.MaximumDamage + 1));
          else
                 damage = rand.Next(Convert.ToInt32(Enemy.MinimumDamage * difficultyBoost), Convert.ToInt32((Enemy.MaximumDamage * difficultyBoost + 1)));
-        }
-
-        public void SetDamage(String enemyName)
-        {
-            Enemy = AllEnemies.Where(x => x.Name == enemyName).SingleOrDefault();
-            damage = rand.Next(Convert.ToInt32(Enemy.MinimumDamage * difficultyBoost), Convert.ToInt32((Enemy.MaximumDamage * difficultyBoost + 1)));
         }
 
         public int GetDamage()
@@ -296,12 +278,12 @@ namespace text_game
             return enemyTotalDamage;
         }
 
-        public void SetEnemyTotalDamage(int damage)
+        public void AddEnemyTotalDamage(int damage)
         {
             this.enemyTotalDamage += damage;
         }
 
-        public void SetEnemyTotalDamageToZero(int damage)
+        public void SetEnemyTotalDamage(int damage)
         {
             this.enemyTotalDamage = damage;
         }
@@ -329,16 +311,6 @@ namespace text_game
         public int GetEnemyMaxDamage()
         {
             return Convert.ToInt32(Enemy.MaximumDamage * difficultyBoost);
-        }
-
-        public double GetDifficultyScaling()
-        {
-            return difficultyScaling;
-        }
-
-        public void SetDifficultyScaling(double difficultyScaling)
-        {
-            this.difficultyScaling = difficultyScaling;
         }
 
     }
