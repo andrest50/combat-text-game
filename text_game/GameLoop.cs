@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static text_game.Global;
 
 namespace text_game
 {
     public class GameLoop
     {
 
-        public static void Loop(EnemyActions enemyActions, Player player, GameMessages txt, GameMechanics mechanics, WeaponActions weapon)
+        public static void Loop()
         {
             
             while (mechanics.running)

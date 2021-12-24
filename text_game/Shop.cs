@@ -3,17 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static text_game.Global;
 
 namespace text_game
 {
     public class Shop
     {
-        private Player Player { get; set; }
-        private HealthPotions HealthPotions { get; set; }
-        private ShieldPotion ShieldPotions { get; set; }
-        private WeaponActions WeaponActions { get; set; }
-        private GameMessages Messages { get; set; }
-
         private int potionQuantity;
 
         const int WeaponDamageUpgradeCost = 5;
@@ -24,15 +19,6 @@ namespace text_game
         public Shop()
         {
 
-        }
-
-        public Shop(Player player, WeaponActions weapon, HealthPotions healthPotions, GameMessages messages, ShieldPotion shieldPotions)
-        {
-            Player = player;
-            WeaponActions = weapon;
-            HealthPotions = healthPotions;
-            Messages = messages;
-            ShieldPotions = shieldPotions;
         }
 
         public void ShopItems()
@@ -110,11 +96,11 @@ namespace text_game
             {
                 case 1:
                     BuyPotionAmount();
-                    CheckCost(HealthPotions.GetCost() * GetPotionAmount(), "Health Potion", "P");
+                    CheckCost(healthPotion.GetCost() * GetPotionAmount(), "Health Potion", "P");
                     break;               
                 case 2:
                     BuyPotionAmount();
-                    CheckCost(ShieldPotions.GetCost() * GetPotionAmount(), "Shield Potion", "P");
+                    CheckCost(shieldPotion.GetCost() * GetPotionAmount(), "Shield Potion", "P");
                     break;
                 case 3:
                     ShopItems();
@@ -150,25 +136,25 @@ namespace text_game
             switch (choice)
             {
                 case 1:
-                    CheckCost(WeaponActions.GetWeaponByName("Bronze Sword").Cost, "Bronze Sword", "W");
+                    CheckCost(weaponActions.GetWeaponByName("Bronze Sword").Cost, "Bronze Sword", "W");
                     break;
                 case 2:
-                    CheckCost(WeaponActions.GetWeaponByName("Sniper").Cost, "Sniper", "W");
+                    CheckCost(weaponActions.GetWeaponByName("Sniper").Cost, "Sniper", "W");
                     break;
                 case 3:
-                    CheckCost(WeaponActions.GetWeaponByName("Spear").Cost, "Spear", "W");
+                    CheckCost(weaponActions.GetWeaponByName("Spear").Cost, "Spear", "W");
                     break;
                 case 4:
-                    CheckCost(WeaponActions.GetWeaponByName("Silver Sword").Cost, "Silver Sword", "W");
+                    CheckCost(weaponActions.GetWeaponByName("Silver Sword").Cost, "Silver Sword", "W");
                     break;
                 case 5:
-                    CheckCost(WeaponActions.GetWeaponByName("Rocket Launcher").Cost, "Rocket Launcher", "W");
+                    CheckCost(weaponActions.GetWeaponByName("Rocket Launcher").Cost, "Rocket Launcher", "W");
                     break;
                 case 6:
-                    CheckCost(WeaponActions.GetWeaponByName("Shotgun").Cost, "Shotgun", "W");
+                    CheckCost(weaponActions.GetWeaponByName("Shotgun").Cost, "Shotgun", "W");
                     break;
                 case 7:
-                    CheckCost(WeaponActions.GetWeaponByName("Golden Sword").Cost, "Golden Sword", "W");
+                    CheckCost(weaponActions.GetWeaponByName("Golden Sword").Cost, "Golden Sword", "W");
                     break;
                 case 8:
                     ShopItems();
@@ -188,33 +174,33 @@ namespace text_game
 
         public void CheckCost(int cost, String item, String type)
         {
-            if (Player.GetCurrency() >= cost)
+            if (player.GetCurrency() >= cost)
             {
                 ItemPurchased(item, type);
                 if (type == "W")
                 {
-                    WeaponActions.SetWeapon(item);
+                    weaponActions.SetWeapon(item);
                 }
                 else if (type == "P")
                 {
                     if (item == "Health Potion")
                     {
-                        HealthPotions.IncrementNumPotions(potionQuantity);
-                        Console.WriteLine("You now have " + HealthPotions.GetNumPotions() + " health potions.");
+                        healthPotion.IncrementNumPotions(potionQuantity);
+                        Console.WriteLine("You now have " + healthPotion.GetNumPotions() + " health potions.");
                     }
                     else if (item == "Shield Potion")
                     {
-                        ShieldPotions.IncrementNumPotions(potionQuantity);
-                        Console.WriteLine("You now have " + ShieldPotions.GetNumPotions() + " shield potions.");
+                        shieldPotion.IncrementNumPotions(potionQuantity);
+                        Console.WriteLine("You now have " + shieldPotion.GetNumPotions() + " shield potions.");
                     }                 
                 }                 
-                else if (Player.GetCurrency() >= cost && type == "WU")
+                else if (player.GetCurrency() >= cost && type == "WU")
                     {
-                        WeaponActions.SetWeaponMinDamage(WeaponActions.GetWeaponMinDamage() + 1);
-                        WeaponActions.SetWeaponMaxDamage(WeaponActions.GetWeaponMaxDamage() + 1);
+                        weaponActions.SetWeaponMinDamage(weaponActions.GetWeaponMinDamage() + 1);
+                        weaponActions.SetWeaponMaxDamage(weaponActions.GetWeaponMaxDamage() + 1);
                         DisplayWeaponDamage();
                     }
-                Player.SetCurrency(Player.GetCurrency() - cost);
+                player.SetCurrency(player.GetCurrency() - cost);
             }
             else
             {
@@ -237,7 +223,7 @@ namespace text_game
             }
             else if (type == "WU")
             {
-                Console.WriteLine("You've purchased a boost to your " + WeaponActions.GetWeaponName());
+                Console.WriteLine("You've purchased a boost to your " + weaponActions.GetWeaponName());
             }
         }
 
@@ -245,15 +231,15 @@ namespace text_game
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Here are the Weapons Available for Purchase:\n");
-            Console.WriteLine("Number of Coins: " + Player.GetCurrency() + "\n");
-            Console.WriteLine("You current weapon is the " + WeaponActions.GetWeaponName() + "\n");
-            Console.WriteLine("1. Bronze Sword - " + WeaponActions.GetWeaponByName("Bronze Sword").Cost);
-            Console.WriteLine("2. Sniper - " + WeaponActions.GetWeaponByName("Sniper").Cost);
-            Console.WriteLine("3. Spear - " + WeaponActions.GetWeaponByName("Spear").Cost);
-            Console.WriteLine("4. Silver Sword - " + WeaponActions.GetWeaponByName("Silver Sword").Cost);
-            Console.WriteLine("5. Rocket Launcher - " + WeaponActions.GetWeaponByName("Rocket Launcher").Cost);
-            Console.WriteLine("6. Shotgun - " + WeaponActions.GetWeaponByName("Shotgun").Cost);
-            Console.WriteLine("7. Golden Sword - " + WeaponActions.GetWeaponByName("Golden Sword").Cost);
+            Console.WriteLine("Number of Coins: " + player.GetCurrency() + "\n");
+            Console.WriteLine("You current weapon is the " + weaponActions.GetWeaponName() + "\n");
+            Console.WriteLine("1. Bronze Sword - " + weaponActions.GetWeaponByName("Bronze Sword").Cost);
+            Console.WriteLine("2. Sniper - " + weaponActions.GetWeaponByName("Sniper").Cost);
+            Console.WriteLine("3. Spear - " + weaponActions.GetWeaponByName("Spear").Cost);
+            Console.WriteLine("4. Silver Sword - " + weaponActions.GetWeaponByName("Silver Sword").Cost);
+            Console.WriteLine("5. Rocket Launcher - " + weaponActions.GetWeaponByName("Rocket Launcher").Cost);
+            Console.WriteLine("6. Shotgun - " + weaponActions.GetWeaponByName("Shotgun").Cost);
+            Console.WriteLine("7. Golden Sword - " + weaponActions.GetWeaponByName("Golden Sword").Cost);
             Console.WriteLine("8. Shop Menu");
         }
 
@@ -262,7 +248,7 @@ namespace text_game
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Welcome to the Shop!");
             Console.WriteLine("Here are the Items Available for Purchase:\n");
-            Console.WriteLine("Number of Coins: " + Player.GetCurrency() + "\n");
+            Console.WriteLine("Number of Coins: " + player.GetCurrency() + "\n");
             Console.WriteLine("1. Weapons");
             Console.WriteLine("2. Weapon Upgrades");
             Console.WriteLine("3. Potions");
@@ -271,31 +257,31 @@ namespace text_game
 
         public void DisplayNumPotions()
         {
-            Console.WriteLine("You currently have " + HealthPotions.GetNumPotions() + " health potions");
-            Console.WriteLine("You also have " + ShieldPotions.GetNumPotions() + " shield potions\n");
+            Console.WriteLine("You currently have " + healthPotion.GetNumPotions() + " health potions");
+            Console.WriteLine("You also have " + shieldPotion.GetNumPotions() + " shield potions\n");
         }
 
         public void ShopPotionsMessage()
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Here are the Potions Available for Purchase:\n");
-            Console.WriteLine("Number of Coins: " + Player.GetCurrency() + "\n");
+            Console.WriteLine("Number of Coins: " + player.GetCurrency() + "\n");
             DisplayNumPotions();
-            Console.WriteLine("1. Health Potion (each) - " + HealthPotions.GetCost());
-            Console.WriteLine("2. Shield Potion (each) - " + ShieldPotions.GetCost());
+            Console.WriteLine("1. Health Potion (each) - " + healthPotion.GetCost());
+            Console.WriteLine("2. Shield Potion (each) - " + shieldPotion.GetCost());
             Console.WriteLine("3. Shop Menu");
         }
 
         public void DisplayWeaponDamage()
         {
-            Console.WriteLine("\nCurrent Minimum Damage: " + WeaponActions.GetWeaponMinDamage());
-            Console.WriteLine("Current Maximum Damage: " + WeaponActions.GetWeaponMaxDamage());
+            Console.WriteLine("\nCurrent Minimum Damage: " + weaponActions.GetWeaponMinDamage());
+            Console.WriteLine("Current Maximum Damage: " + weaponActions.GetWeaponMaxDamage());
         }
 
         public void UpgradeWeaponDamageMessage()
         {
             Console.WriteLine("---------------------------------------------------------------------------");
-            Console.WriteLine("Coins: " + Player.GetCurrency());
+            Console.WriteLine("Coins: " + player.GetCurrency());
             DisplayWeaponDamage();
             Console.WriteLine("\n1. Increase Damage Range By 1: 5 coins");
             Console.WriteLine("2. Return to Weapon Upgrades");
@@ -305,8 +291,8 @@ namespace text_game
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Here are the upgrades for your weapon!");
-            Console.WriteLine("Coins: " + Player.GetCurrency());
-            Console.WriteLine("Current Weapon: " + WeaponActions.GetWeaponName());
+            Console.WriteLine("Coins: " + player.GetCurrency());
+            Console.WriteLine("Current Weapon: " + weaponActions.GetWeaponName());
             Console.WriteLine("\n1. Damage Increase");
             Console.WriteLine("2. Exit");
         }

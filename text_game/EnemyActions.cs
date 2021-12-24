@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static text_game.Global;
 
 namespace text_game
 {
@@ -146,7 +147,7 @@ namespace text_game
             AllBosses.Add(boss3);
         }
 
-        public Enemy SetAttributes(Player player)
+        public Enemy SetAttributes()
         {
             if (player.GetLevel() % 5 == 0 && player.GetLevel() != 0)
             {

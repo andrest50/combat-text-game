@@ -4,9 +4,24 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using static text_game.Global;
 
 namespace text_game
 {
+    public static class Global
+    {
+        public static GameMessages messages = new GameMessages();
+        public static EnemyActions enemyActions = new EnemyActions();
+        public static WeaponActions weaponActions = new WeaponActions();
+        public static HealthPotions healthPotion = new HealthPotions();
+        public static Player player = new Player();
+        public static ShieldPotion shieldPotion = new ShieldPotion();
+        public static AbilityActions abilityActions = new AbilityActions();
+        public static Abilities ability = new Abilities();
+        public static Utils utils = new Utils();
+        public static Shop shop = new Shop();
+        public static GameMechanics mechanics = new GameMechanics();
+    }
 
     public static class Program
     {
@@ -24,18 +39,6 @@ namespace text_game
         public const bool DEBUG = true;
         static void Main(string[] args)
         {
-            GameMessages messages = new GameMessages();
-            EnemyActions enemyActions = new EnemyActions();
-            WeaponActions weaponActions = new WeaponActions();
-            HealthPotions healthPotion = new HealthPotions();
-            Player player = new Player();
-            ShieldPotion shieldPotion = new ShieldPotion();
-            AbilityActions abilityActions = new AbilityActions();
-            Abilities ability = new Abilities();
-            Utils utils = new Utils();
-            Shop shop = new Shop(player, weaponActions, healthPotion, messages, shieldPotion);
-            GameMechanics mechanics = new GameMechanics(player, enemyActions, weaponActions, messages, healthPotion, shop, shieldPotion, abilityActions, ability, utils);
-
             string playerName = GameMessages.Welcome();
             player.SetPlayerName(playerName);
 
@@ -122,7 +125,7 @@ namespace text_game
                             selectedDebugOptions.Add(debugOptions[choice - 1]);
                             debugOptions.RemoveAt(choice - 1);
                         }
-                        GameLoop.Loop(enemyActions, player, messages, mechanics, weaponActions);
+                        GameLoop.Loop();
                         break;
                     case 2:
                         Console.WriteLine("---------------------------------------------------------------------------");

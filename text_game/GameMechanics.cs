@@ -4,52 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static text_game.Global;
 
 namespace text_game
 {
     public class GameMechanics
     {
         public bool running = true;
-        private readonly Player Player;
-        private readonly EnemyActions EnemyActions;
-        private readonly GameMessages Messages;
-        private readonly WeaponActions WeaponActions;
-        private readonly ShieldPotion ShieldPotion;
-        private readonly HealthPotions HealthPotion;
-        private readonly AbilityActions AbilityActions;
-        private Abilities Ability;
-        private readonly Shop Shop;
-        private readonly Utils Utils;
 
-        public GameMechanics() { }            
-
-        public GameMechanics(Player player, EnemyActions enemyActions, WeaponActions weaponActions, 
-            GameMessages messages, HealthPotions healthPotion, Shop shop, 
-            ShieldPotion shieldPotion, AbilityActions abilityActions, Abilities ability, Utils utils)
+        public GameMechanics()
         {
-            Player = player;
-            EnemyActions = enemyActions;
-            WeaponActions = weaponActions;
-            Messages = messages;
-            HealthPotion = healthPotion;
-            Shop = shop;
-            ShieldPotion = shieldPotion;
-            AbilityActions = abilityActions;
-            Ability = ability;
-            Utils = utils;
             SetStartingValues();
         }
 
         private void SetStartingValues()
         {
-            WeaponActions.SetStartingValues();
-            Player.SetStartingExp();
+            weaponActions.SetStartingValues();
+            player.SetStartingExp();
         }
 
         public void PromptSimulateAttacks()
         {
             Console.WriteLine("Insert Number of Times to Simulate");
-            int numTimesInt = Utils.GetIntInput(1, 100);
+            int numTimesInt = utils.GetIntInput(1, 100);
             SimulateAttacks(numTimesInt);
         }
 
@@ -57,20 +34,20 @@ namespace text_game
         {
             for(int i = 0; i < numTimes; i++)
             {
-                Player.SetHealth(1000000);
+                player.SetHealth(1000000);
 
-                while (EnemyActions.GetHealth() > 0)
+                while (enemyActions.GetHealth() > 0)
                 {
                     Attack();
                 }
 
-                if (EnemyActions.GetHealth() < 0)
+                if (enemyActions.GetHealth() < 0)
                 {
                     EnemyDead();
                     SetStartingEnemyValues();
                 }                 
             }
-            GameMessages.DisplayEndEncounterStats(Player, EnemyActions, HealthPotion, WeaponActions, ShieldPotion);
+            GameMessages.DisplayEndEncounterStats();
             PromptSimulateAttacks();
 
         }
@@ -78,7 +55,7 @@ namespace text_game
         public int MainMenu()
         {
             GameMessages.MainMenuText();
-            int choice = Utils.GetIntInput(1, 3);
+            int choice = utils.GetIntInput(1, 3);
 
             return choice;
         }
@@ -88,12 +65,12 @@ namespace text_game
         {
             EnemyAlive();
 
-            int choiceInt = Utils.GetIntInput(1, 5);
+            int choiceInt = utils.GetIntInput(1, 5);
             switch (choiceInt)
             {
                 case 1:
                     Attack();
-                    Player.SetRan(false);
+                    player.SetRan(false);
                     break;
                 case 2:
                     Heal();
@@ -112,31 +89,31 @@ namespace text_game
       
         public void SetStartingEnemyValues()
         {
-           EnemyActions.SetAttributes(Player);
+           enemyActions.SetAttributes();
         }
 
         public void EnemyAppear()
         {
-            if (EnemyActions.bossActive == true)
-                GameMessages.BossAppearText(EnemyActions);
+            if (enemyActions.bossActive == true)
+                GameMessages.BossAppearText();
             else
-                GameMessages.EnemyAppearText(EnemyActions);
+                GameMessages.EnemyAppearText();
 
-            GameMessages.DisplayCurrentWeaponDamage(WeaponActions);
-            GameMessages.DisplayCurrentEnemyDamage(EnemyActions);
-            WeaponActions.SetDurability(WeaponActions.GetDurability() - 1);
+            GameMessages.DisplayCurrentWeaponDamage();
+            GameMessages.DisplayCurrentEnemyDamage();
+            weaponActions.SetDurability(weaponActions.GetDurability() - 1);
         }
 
         public void EnemyAlive()
         {
-            GameMessages.EnemyAliveText(Player, EnemyActions, WeaponActions);
+            GameMessages.EnemyAliveText();
         }
 
         private void AbilitiesOption()
         {
-            GameMessages.AbilityOptions(AbilityActions, Ability);
+            GameMessages.AbilityOptions();
 
-            int choiceInt = Utils.GetIntInput(0, 1);
+            int choiceInt = utils.GetIntInput(0, 1);
 
             switch (choiceInt)
             {
@@ -144,10 +121,10 @@ namespace text_game
                     EncounterOptions();
                     break;
                 case 1:
-                    Ability = AbilityActions.SetCurrentAbility("Fireball");
-                    if (Ability.Cooldown == 0)
+                    ability = abilityActions.SetCurrentAbility("Fireball");
+                    if (ability.Cooldown == 0)
                     {
-                        GameMessages.FireballUsed(Ability);
+                        GameMessages.FireballUsed();
                         Fireball();
                     }
                     else
@@ -161,26 +138,26 @@ namespace text_game
 
         private void Fireball()
         {
-            EnemyActions.SetDamage();
+            enemyActions.SetDamage();
             //Weapon = WeaponActions.GetWeapon();
             //WeaponActions.SetDamage(Weapon.Name);
-            AbilityActions.SetDamage(Ability.Name);
-            Player.SetTotalDamage(AbilityActions.GetDamage());
-            EnemyActions.AddEnemyTotalDamage(EnemyActions.GetDamage());
+            abilityActions.SetDamage(ability.Name);
+            player.SetTotalDamage(abilityActions.GetDamage());
+            enemyActions.AddEnemyTotalDamage(enemyActions.GetDamage());
             ShieldActiveCheck();
-            Ability.Cooldown = 3;
-            EnemyActions.SetHealth(EnemyActions.GetHealth() - AbilityActions.GetDamage());
-            GameMessages.DealingAbilityDamageText(EnemyActions, AbilityActions);
+            ability.Cooldown = 3;
+            enemyActions.SetHealth(enemyActions.GetHealth() - abilityActions.GetDamage());
+            GameMessages.DealingAbilityDamageText();
         }
 
         private void Shield()
         {
-            if (ShieldPotion.GetNumPotions() > 0)
+            if (shieldPotion.GetNumPotions() > 0)
             {
-                ShieldPotion.SetNumPotions(ShieldPotion.GetNumPotions() - 1);
-                ShieldPotion.SetShieldActive(true);
-                ShieldPotion.SetShieldTurns(3);
-                GameMessages.ShieldText(ShieldPotion);
+                shieldPotion.SetNumPotions(shieldPotion.GetNumPotions() - 1);
+                shieldPotion.SetShieldActive(true);
+                shieldPotion.SetShieldTurns(3);
+                GameMessages.ShieldText();
             }
             else
             {
@@ -190,21 +167,21 @@ namespace text_game
 
         private void Heal()
         {
-            if (HealthPotion.GetNumPotions() > 0 && (Player.GetHealth() + HealthPotion.GetHealthPotionAmount() <= 150))
+            if (healthPotion.GetNumPotions() > 0 && (player.GetHealth() + healthPotion.GetHealthPotionAmount() <= 150))
             {
-                HealthPotion.SetHealthPotionAmount(30);
-                Player.SetHealth(Player.GetHealth(), HealthPotion.GetHealthPotionAmount());
-                HealthPotion.SetNumPotions(HealthPotion.GetNumPotions() - 1);
-                GameMessages.HealText(HealthPotion);
+                healthPotion.SetHealthPotionAmount(30);
+                player.SetHealth(player.GetHealth(), healthPotion.GetHealthPotionAmount());
+                healthPotion.SetNumPotions(healthPotion.GetNumPotions() - 1);
+                GameMessages.HealText();
             }
-            else if (HealthPotion.GetNumPotions() > 0 && (Player.GetHealth() + HealthPotion.GetHealthPotionAmount()) > 150 && Player.GetHealth() != 150)
+            else if (healthPotion.GetNumPotions() > 0 && (player.GetHealth() + healthPotion.GetHealthPotionAmount()) > 150 && player.GetHealth() != 150)
             {
-                HealthPotion.SetHealthPotionAmount(150 - Player.GetHealth());
-                Player.SetHealth(Player.GetHealth(), HealthPotion.GetHealthPotionAmount());
-                HealthPotion.SetNumPotions(HealthPotion.GetNumPotions() - 1);
-                GameMessages.HealText(HealthPotion);
+                healthPotion.SetHealthPotionAmount(150 - player.GetHealth());
+                player.SetHealth(player.GetHealth(), healthPotion.GetHealthPotionAmount());
+                healthPotion.SetNumPotions(healthPotion.GetNumPotions() - 1);
+                GameMessages.HealText();
             }
-            else if (Player.GetHealth() == 150)
+            else if (player.GetHealth() == 150)
             {
                 GameMessages.HealFailedText();
             }
@@ -219,12 +196,12 @@ namespace text_game
         /// </summary>
         private void Run()
         {
-            EnemyActions.SetHealth(0);
-            EnemyActions.SetEnemyTotalDamage(0);
-            Player.SetRan(true);
-            WeaponActions.SetWeapon("Silver Sword");
-            Player.TakeDamage(Player.GetHealth(), EnemyActions.GetDamage());
-            GameMessages.RunDamage(Player, EnemyActions);
+            enemyActions.SetHealth(0);
+            enemyActions.SetEnemyTotalDamage(0);
+            player.SetRan(true);
+            weaponActions.SetWeapon("Silver Sword");
+            player.TakeDamage(player.GetHealth(), enemyActions.GetDamage());
+            GameMessages.RunDamage();
             EndEncounter();
         }
 
@@ -246,7 +223,7 @@ namespace text_game
                 case "yes":
                 case "y":
                     GameMessages.Divider(1);
-                    if (Player.GetHealth() > 0)
+                    if (player.GetHealth() > 0)
                     {
                         GameMessages.LeaveDungeonText();
                     }
@@ -265,33 +242,33 @@ namespace text_game
 
         public void EnemyDead()
         {
-            if(Player.GetRan() == false)
+            if(player.GetRan() == false)
             {
-                Player.SetEncounterExp(EnemyActions.GetEnemyStartingHealth(), EnemyActions.GetEnemyTotalDamage(), EnemyActions);
-                Player.GetExpIncrement();
-                Player.SetLevel();
-                Player.SetCurrency(EnemyActions.GetEnemyStartingHealth(), EnemyActions.GetEnemyTotalDamage());
-                Player.AddEnemiesSlain();
-                EnemyActions.SetDropPotions();
-                int healthPotionsDropped = EnemyActions.GetDropPotions();
-                HealthPotion.IncrementNumPotions(healthPotionsDropped);
-                if (EnemyActions.bossActive == true)
+                player.SetEncounterExp(enemyActions.GetEnemyStartingHealth(), enemyActions.GetEnemyTotalDamage());
+                player.GetExpIncrement();
+                player.SetLevel();
+                player.SetCurrency(enemyActions.GetEnemyStartingHealth(), enemyActions.GetEnemyTotalDamage());
+                player.AddEnemiesSlain();
+                enemyActions.SetDropPotions();
+                int healthPotionsDropped = enemyActions.GetDropPotions();
+                healthPotion.IncrementNumPotions(healthPotionsDropped);
+                if (enemyActions.bossActive == true)
                 {
-                    EnemyActions.NoLongerBoss();
+                    enemyActions.NoLongerBoss();
                     GameMessages.BossPotionText(healthPotionsDropped);
                 }
-                EnemyActions.IncrementDifficultyBoost();
-                WeaponActions.IncrementWeaponBoost(EnemyActions);
+                enemyActions.IncrementDifficultyBoost();
+                weaponActions.IncrementWeaponBoost();
              }
-            GameMessages.DisplayEndEncounterStats(Player, EnemyActions, HealthPotion, WeaponActions, ShieldPotion);
-            EnemyActions.SetEnemyTotalDamage(0);
+            GameMessages.DisplayEndEncounterStats();
+            enemyActions.SetEnemyTotalDamage(0);
             //Player.SetHealth(Player.GetHealth());
             EndEncounter();
         }
 
         private void Statistics()
         {
-            GameMessages.StatisticsText(Player, WeaponActions, HealthPotion, ShieldPotion);
+            GameMessages.StatisticsText();
         }
 
         private void EndEncounter()
@@ -302,14 +279,14 @@ namespace text_game
             {
                 GameMessages.EndEncounterText();
 
-                int choiceInt = Utils.GetIntInput(1, 5);
+                int choiceInt = utils.GetIntInput(1, 5);
 
                 switch (choiceInt)
                 {
                     case 1:
                         GameMessages.ContinueFightingText();
                         loop = false;
-                        GameLoop.Loop(EnemyActions, Player, Messages, this, WeaponActions);
+                        GameLoop.Loop();
                         break;
                     case 2:
                         if (LeaveDungeon())
@@ -330,56 +307,56 @@ namespace text_game
 
         public void AbilitiesScreen()
         {
-            AbilityActions.SetRunningAbilities(true);
-            while (AbilityActions.GetRunningAbilities() == true)
-                AbilityActions.AbilitiesScreen(Player);
+            abilityActions.SetRunningAbilities(true);
+            while (abilityActions.GetRunningAbilities() == true)
+                abilityActions.AbilitiesScreen();
         }
 
         public void ShopScreen()
         {
-            Shop.SetRunningShop(true);
-            while (Shop.GetRunningShop() == true)
+            shop.SetRunningShop(true);
+            while (shop.GetRunningShop() == true)
             {
-                Shop.ShopItems();
+                shop.ShopItems();
             }               
         }
 
         private void Attack()
         {
-            EnemyActions.SetDamage();
-            WeaponActions.SetDamage(WeaponActions.GetWeaponName());
-            Player.SetTotalDamage(WeaponActions.GetDamage());
-            EnemyActions.AddEnemyTotalDamage(EnemyActions.GetDamage());
+            enemyActions.SetDamage();
+            weaponActions.SetDamage(weaponActions.GetWeaponName());
+            player.SetTotalDamage(weaponActions.GetDamage());
+            enemyActions.AddEnemyTotalDamage(enemyActions.GetDamage());
             ShieldActiveCheck();
             DecrementCooldowns();
-            EnemyActions.SetHealth(EnemyActions.GetHealth() - WeaponActions.GetDamage());
-            GameMessages.DealingDamageText(EnemyActions, WeaponActions);
+            enemyActions.SetHealth(enemyActions.GetHealth() - weaponActions.GetDamage());
+            GameMessages.DealingDamageText();
         }
 
         private void DecrementCooldowns()
         {
-            if (Ability.Cooldown > 0)
-                Ability.Cooldown -= 1;
+            if (ability.Cooldown > 0)
+                ability.Cooldown -= 1;
         }
 
         private void ShieldActiveCheck()
         {
-            if (ShieldPotion.GetShieldActive() == false)
-                Player.TakeDamage(Player.GetHealth(), EnemyActions.GetDamage());
-            else if (ShieldPotion.GetShieldTurns() > 1)
+            if (shieldPotion.GetShieldActive() == false)
+                player.TakeDamage(player.GetHealth(), enemyActions.GetDamage());
+            else if (shieldPotion.GetShieldTurns() > 1)
             {
-                ShieldPotion.SetShieldTurns(ShieldPotion.GetShieldTurns() - 1);
-                GameMessages.ShieldTurnUsed(ShieldPotion);
+                shieldPotion.SetShieldTurns(shieldPotion.GetShieldTurns() - 1);
+                GameMessages.ShieldTurnUsed();
             }
-            else if (ShieldPotion.GetShieldTurns() == 1)
+            else if (shieldPotion.GetShieldTurns() == 1)
             {
-                ShieldPotion.SetShieldTurns(ShieldPotion.GetShieldTurns() - 1);
+                shieldPotion.SetShieldTurns(shieldPotion.GetShieldTurns() - 1);
                 GameMessages.ShieldExpired();
             }
             else
             {
-                ShieldPotion.SetShieldActive(false);
-                Player.TakeDamage(Player.GetHealth(), EnemyActions.GetDamage());
+                shieldPotion.SetShieldActive(false);
+                player.TakeDamage(player.GetHealth(), enemyActions.GetDamage());
             }
         }
        

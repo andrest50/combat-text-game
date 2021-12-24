@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static text_game.Global;
 
 namespace text_game
 {
@@ -127,7 +128,7 @@ namespace text_game
             Weapon.Durability = durability;
         }
 
-        public void IncrementWeaponBoost(EnemyActions enemyActions)
+        public void IncrementWeaponBoost()
         {
             weaponBoost += Math.Log10(1 + (0.00002 * (enemyActions.GetEnemyTotalDamage() + enemyActions.GetEnemyStartingHealth())));
         }

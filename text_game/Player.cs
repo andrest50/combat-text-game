@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static text_game.Global;
 
 namespace text_game
 {
@@ -10,7 +11,6 @@ namespace text_game
     {
         Random rand = new Random();
 
-        //public Level level { get; set; }
         private int health;
         private int enemiesSlain;
         private int totalDamage;
@@ -184,10 +184,10 @@ namespace text_game
             return encounterExp;
         }
 
-        public void SetEncounterExp(int health, int damage, EnemyActions enemy)
+        public void SetEncounterExp(int health, int damage)
         {
             double multiplier = 1.00;
-            if (enemy.bossActive == true)
+            if (enemyActions.bossActive == true)
                 multiplier = 0.50;
 
             encounterExp = Convert.ToInt32((multiplier * ((health + damage) / 10)));

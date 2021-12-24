@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static text_game.Global;
 
 namespace text_game
 {
@@ -23,9 +24,9 @@ namespace text_game
             InitAbilities();
         }
 
-        public Abilities SetCurrentAbility(String ability)
+        public Abilities SetCurrentAbility(String abilityName)
         {
-            Ability = OwnedAbilities.Where(x => x.Name == ability).SingleOrDefault();
+            Ability = OwnedAbilities.Where(x => x.Name == abilityName).SingleOrDefault();
 
             return Ability;
         }
@@ -72,16 +73,16 @@ namespace text_game
             choice = Convert.ToInt32(choiceString);
         }
 
-        public void AbilitiesScreen(Player player)
+        public void AbilitiesScreen()
         {
-            AbilitiesScreenMessage(player);
+            AbilitiesScreenMessage();
             runningAbilities = true;
             Choice();
 
             switch (choice)
             {
                 case 1:
-                    BuyAbilities(player);
+                    BuyAbilities();
                     break;
                 case 2:
                     Console.WriteLine("Coming Soon");
@@ -93,27 +94,27 @@ namespace text_game
             }
         }
 
-        public void BuyAbilities(Player player)
+        public void BuyAbilities()
         {
-            BuyAbilitiesScreenMessage(player);
+            BuyAbilitiesScreenMessage();
             Choice();
 
             switch (choice)
             {
                 case 1:
                     Console.WriteLine(AllAbilities.Where(x => x.Name == "Fireball").SingleOrDefault().Cost);
-                    CheckBuyCost(player, "Fireball", AllAbilities.Where(x => x.Name == "Fireball").SingleOrDefault().Cost, CheckIfAbilityIsOwned("Fireball"));
+                    CheckBuyCost("Fireball", AllAbilities.Where(x => x.Name == "Fireball").SingleOrDefault().Cost, CheckIfAbilityIsOwned("Fireball"));
                     break;
                 case 2:
                     Console.WriteLine("Coming Soon");
                     break;
                 case 3:                  
-                    AbilitiesScreen(player);
+                    AbilitiesScreen();
                     break;
             }
         }
 
-        public void CheckBuyCost(Player player, String abilityName, int cost, bool owned)
+        public void CheckBuyCost(String abilityName, int cost, bool owned)
         {
             if (player.GetSkillPoints() >= cost && owned == false)
             {
@@ -147,7 +148,7 @@ namespace text_game
             Console.WriteLine("You've purchased the " + name);
         }
 
-        public void BuyAbilitiesScreenMessage(Player player)
+        public void BuyAbilitiesScreenMessage()
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Welcome to the Abilities Shop");
@@ -157,7 +158,7 @@ namespace text_game
             Console.WriteLine("3. Exit");
         }
 
-        public void AbilitiesScreenMessage(Player player)
+        public void AbilitiesScreenMessage()
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Welcome to the Abilities Menu");
