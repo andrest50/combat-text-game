@@ -6,31 +6,20 @@ using System.Threading.Tasks;
 
 namespace text_game
 {
-    public class AbilityActions : Player
+    public class AbilityActions
     {
-        private WeaponActions WeaponActions { get; set; }
-
         public List<Abilities> AllAbilities = new List<Abilities>();
         public List<Abilities> OwnedAbilities = new List<Abilities>();        
         private Abilities Ability;
 
         public bool runningAbilities = true;
         int choice;
-        private int Damage;
-
-        private bool FireballBought;
+        private int damage;
 
         Random rand = new Random();
 
         public AbilityActions()
         {
-            InitAbilities();
-            //SetStartingWeapon();
-        }
-
-        public AbilityActions(WeaponActions weapon)
-        {
-            WeaponActions = weapon;
             InitAbilities();
         }
 
@@ -63,6 +52,11 @@ namespace text_game
             return ability1;
         }
 
+        public bool CheckIfAbilityIsOwned(string abilityName)
+        {
+            return OwnedAbilities.Exists(ability => ability.Name == abilityName);
+        }
+
         public bool GetRunningAbilities()
         {
             return runningAbilities;
@@ -79,16 +73,16 @@ namespace text_game
             choice = Convert.ToInt32(choiceString);
         }
 
-        public void AbilitiesScreen()
+        public void AbilitiesScreen(Player player)
         {
-            AbilitiesScreenMessage();
+            AbilitiesScreenMessage(player);
             runningAbilities = true;
             Choice();
 
             switch (choice)
             {
                 case 1:
-                    BuyAbilities();
+                    BuyAbilities(player);
                     break;
                 case 2:
                     Console.WriteLine("Coming Soon");
@@ -100,43 +94,40 @@ namespace text_game
             }
         }
 
-        public void BuyAbilities()
+        public void BuyAbilities(Player player)
         {
-            BuyAbilitiesScreenMessage();
+            BuyAbilitiesScreenMessage(player);
             Choice();
 
             switch (choice)
             {
                 case 1:
                     Console.WriteLine(AllAbilities.Where(x => x.Name == "Fireball").SingleOrDefault().Cost);
-                    CheckBuyCost("Fireball", AllAbilities.Where(x => x.Name == "Fireball").SingleOrDefault().Cost, FireballBought);
+                    CheckBuyCost(player, "Fireball", AllAbilities.Where(x => x.Name == "Fireball").SingleOrDefault().Cost, CheckIfAbilityIsOwned("Fireball"));
                     break;
                 case 2:
                     Console.WriteLine("Coming Soon");
-                    //ShopPotions();
                     break;
                 case 3:                  
-                    AbilitiesScreen();
+                    AbilitiesScreen(player);
                     break;
             }
         }
 
-        public void CheckBuyCost(String name, int cost, bool bought)
+        public void CheckBuyCost(Player player, String name, int cost, bool bought)
         {
-            if (GetSkillPoints() >= cost && bought == false)
+            if (player.GetSkillPoints() >= cost && bought == false)
             {
                 AbilityPurchased(name);
 
                 if (name == "Fireball")
                 {
-                    FireballBought = true;
                     OwnedAbilities.Add(FireballAbility());
                 }
-                SetSkillPoints(GetSkillPoints() - cost);
+                player.SetSkillPoints(player.GetSkillPoints() - cost);
             }
             else if (bought == true)
                 Console.WriteLine("You already own that ability");
-
             else
                 Console.WriteLine("You don't have the sufficient number of skill points for purchase.");
         }
@@ -144,12 +135,12 @@ namespace text_game
         public void SetDamage(string abilityName)
         {
             Ability = OwnedAbilities.Where(x => x.Name == abilityName).SingleOrDefault();
-            Damage = rand.Next(Convert.ToInt32(Ability.MinimumDamage), Convert.ToInt32(Ability.MaximumDamage) + 1);
+            damage = rand.Next(Convert.ToInt32(Ability.MinimumDamage), Convert.ToInt32(Ability.MaximumDamage) + 1);
         }
 
         public int GetDamage()
         {
-            return Damage;
+            return damage;
         }
 
         public void AbilityPurchased(String name)
@@ -157,21 +148,21 @@ namespace text_game
             Console.WriteLine("You've purchased the " + name);
         }
 
-        public void BuyAbilitiesScreenMessage()
+        public void BuyAbilitiesScreenMessage(Player player)
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Welcome to the Abilities Shop");
-            Console.WriteLine("Skill Points: " + GetSkillPoints());
+            Console.WriteLine("Skill Points: " + player.GetSkillPoints());
             Console.WriteLine("\n1. Fireball");
             Console.WriteLine("2. Orb (Coming Soon)");
             Console.WriteLine("3. Exit");
         }
 
-        public void AbilitiesScreenMessage()
+        public void AbilitiesScreenMessage(Player player)
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Welcome to the Abilities Menu");
-            Console.WriteLine("Skill Points: " + GetSkillPoints());
+            Console.WriteLine("Skill Points: " + player.GetSkillPoints());
             Console.WriteLine("\n1. Buy Abilities");
             Console.WriteLine("2. Upgrade Abilities (Coming Soon)");
             Console.WriteLine("3. Exit");

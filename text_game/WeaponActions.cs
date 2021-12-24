@@ -9,19 +9,15 @@ namespace text_game
     public class WeaponActions
     {
         Random rand = new Random();
-        //public List<Int32> weaponMinDamages = new List<Int32> { 12, 15, 17, 18, 20, 22, 24, 25 };
-        //public List<Int32> weaponMaxDamages = new List<Int32> { 20, 25, 23, 22, 30, 28, 26, 35 };
-        //public List<String> weapons = new List<String> { "Wooden Sword", "Bronze Sword", "Sniper", "Tarp", "Silver Sword", "Rocket Launcher", "rip", "Gold Sword" };
-        private List<Weapon> AllWeapons = new List<Weapon>();
+
+        private List<Weapon> AllWeapons;
         private Weapon Weapon;
         private int damage;
         private double weaponBoost;
-        private double weaponScaling;
 
         public WeaponActions()
         {
             InitWeapons();
-            //SetStartingWeapon();
         }
 
         private void InitWeapons()
@@ -101,15 +97,16 @@ namespace text_game
             AllWeapons.Add(weapon8);
         }
 
-        //public void SetStartingWeapons()
-        //{
-        //    SetWeapon("Wooden Sword");
-        //}
+        public Weapon SetStartingWeapon(string weaponName)
+        {
+            Weapon = AllWeapons.Where(x => x.Name == weaponName).SingleOrDefault();
+            return Weapon;
+        }
 
         public void SetStartingValues()
         {
+            SetStartingWeapon("Wooden Sword");
             SetWeaponBoost(1.00);
-            SetWeaponScaling(1.00);
         }
 
         public int GetDurability()
@@ -122,21 +119,9 @@ namespace text_game
             Weapon.Durability = durability;
         }
 
-        public Weapon SetStartingWeapon()
-        {
-            Weapon = AllWeapons.Where(x => x.Name == "Wooden Sword").SingleOrDefault();
-            return Weapon;
-        }
-
-        public void SetWeaponScaling(double weaponScaling)
-        {
-            this.weaponScaling = weaponScaling;
-        }
-
         public void IncrementWeaponBoost(EnemyActions enemyActions)
         {
-            weaponBoost += weaponScaling * (0.00002 * (enemyActions.GetEnemyTotalDamage() + enemyActions.GetEnemyStartingHealth()));
-            weaponScaling -= 0.005;
+            weaponBoost += Math.Log10(1 + (0.00002 * (enemyActions.GetEnemyTotalDamage() + enemyActions.GetEnemyStartingHealth())));
         }
 
         public void SetWeaponBoost(double weaponBoost)
@@ -172,11 +157,6 @@ namespace text_game
         public void SetWeaponMaxDamage(int damage)
         {
             Weapon.MaximumDamage = damage;
-        }
-
-        public String GetWeaponName(String weaponName)
-        {
-            return AllWeapons.Where(x => x.Name == "Wooden Sword").SingleOrDefault().Name;
         }
 
         public int GetWeaponMinDamage()

@@ -7,8 +7,8 @@
     <ProjectGuid>{4892B3AC-B5F9-4DF5-879E-D1F7C777DDFA}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConsoleApplication1</RootNamespace>
-    <AssemblyName>ConsoleApplication1</AssemblyName>
+    <RootNamespace>TextGame</RootNamespace>
+    <AssemblyName>TextGame</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -51,7 +51,6 @@
     <Compile Include="GameMechanics.cs" />
     <Compile Include="GameLoop.cs" />
     <Compile Include="HealthPotions.cs" />
-    <Compile Include="Level.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Potion.cs" />
     <Compile Include="Program.cs" />

@@ -10,18 +10,16 @@ namespace text_game
     public class GameMechanics
     {
         public bool running = true;
-        private Player Player { get; set; }
-        private EnemyActions EnemyActions { get; set; }
-        private Enemy Enemy { get; set; }
-        private GameMessages Messages { get; set; }
-        private WeaponActions WeaponActions { get; set; }
-        private Weapon Weapon { get; set; }
-        private ShieldPotion ShieldPotion { get; set; }
-        private HealthPotions HealthPotion { get; set; }
-        private AbilityActions AbilityActions { get; set; }
-        private Abilities Ability { get; set; }
-        private Shop Shop { get; set; }
-        private Utils Utils { get; set; }
+        private readonly Player Player;
+        private readonly EnemyActions EnemyActions;
+        private readonly GameMessages Messages;
+        private readonly WeaponActions WeaponActions;
+        private readonly ShieldPotion ShieldPotion;
+        private readonly HealthPotions HealthPotion;
+        private readonly AbilityActions AbilityActions;
+        private Abilities Ability;
+        private readonly Shop Shop;
+        private readonly Utils Utils;
 
         public GameMechanics() { }            
 
@@ -32,7 +30,6 @@ namespace text_game
             Player = player;
             EnemyActions = enemyActions;
             WeaponActions = weaponActions;
-            Weapon = WeaponActions.SetStartingWeapon();
             Messages = messages;
             HealthPotion = healthPotion;
             Shop = shop;
@@ -115,7 +112,7 @@ namespace text_game
       
         public void SetStartingEnemyValues()
         {
-           Enemy = EnemyActions.SetAttributes(Player);
+           EnemyActions.SetAttributes(Player);
         }
 
         public void EnemyAppear()
@@ -335,7 +332,7 @@ namespace text_game
         {
             AbilityActions.SetRunningAbilities(true);
             while (AbilityActions.GetRunningAbilities() == true)
-                AbilityActions.AbilitiesScreen();
+                AbilityActions.AbilitiesScreen(Player);
         }
 
         public void ShopScreen()
@@ -350,8 +347,7 @@ namespace text_game
         private void Attack()
         {
             EnemyActions.SetDamage();
-            Weapon = WeaponActions.GetWeapon();
-            WeaponActions.SetDamage(Weapon.Name);
+            WeaponActions.SetDamage(WeaponActions.GetWeaponName());
             Player.SetTotalDamage(WeaponActions.GetDamage());
             EnemyActions.AddEnemyTotalDamage(EnemyActions.GetDamage());
             ShieldActiveCheck();

@@ -30,7 +30,7 @@ namespace text_game
 
                 choiceInt = Convert.ToInt32(choice);
 
-                if (choiceInt > maxNum || choiceInt < minNum)
+                if (choiceInt < minNum || choiceInt > maxNum)
                     continue;
 
                 valid = true;

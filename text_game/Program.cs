@@ -30,7 +30,7 @@ namespace text_game
             HealthPotions healthPotion = new HealthPotions();
             Player player = new Player();
             ShieldPotion shieldPotion = new ShieldPotion();
-            AbilityActions abilityActions = new AbilityActions(weaponActions);
+            AbilityActions abilityActions = new AbilityActions();
             Abilities ability = new Abilities();
             Utils utils = new Utils();
             Shop shop = new Shop(player, weaponActions, healthPotion, messages, shieldPotion);

@@ -195,17 +195,17 @@ namespace text_game
         public static void StatisticsText(Player player, WeaponActions weapon, HealthPotions healthPotion, ShieldPotion shieldPotion)
         {
             Console.WriteLine("---------------------------------------------------------------------------");
-            Console.WriteLine("\nHealth: " + player.GetHealth());
-            Console.WriteLine("\nTotal Exp: " + player.GetExp());
-            Console.WriteLine("\nLevel: " + player.GetLevel());
-            Console.WriteLine("\nCurrent Weapon Boost: " + weapon.GetWeaponBoost());
-            Console.WriteLine("\n" + weapon.GetWeaponName() + "'s Durability: " + weapon.GetDurability());
-            Console.WriteLine("\nNumber of Enemies Slain: " + player.GetEnemiesSlain());
-            Console.WriteLine("\nTotal Damage Dealt: " + player.GetTotalDamage());
-            Console.WriteLine("\nNumber of Health Potions: " + healthPotion.GetNumPotions());
-            Console.WriteLine("\nNumber of Shield Potions: " + shieldPotion.GetNumPotions());
-            Console.WriteLine("\nNumber of Coins: " + player.GetCurrency());
-            Console.WriteLine("\nSkill Points: " + player.GetSkillPoints());
+            Console.WriteLine("Health: " + player.GetHealth());
+            Console.WriteLine("Total Exp: " + player.GetExp());
+            Console.WriteLine("Level: " + player.GetLevel());
+            Console.WriteLine("Current Weapon Boost: " + weapon.GetWeaponBoost());
+            Console.WriteLine(weapon.GetWeaponName() + "'s Durability: " + weapon.GetDurability());
+            Console.WriteLine("Number of Enemies Slain: " + player.GetEnemiesSlain());
+            Console.WriteLine("Total Damage Dealt: " + player.GetTotalDamage());
+            Console.WriteLine("Number of Health Potions: " + healthPotion.GetNumPotions());
+            Console.WriteLine("Number of Shield Potions: " + shieldPotion.GetNumPotions());
+            Console.WriteLine("Number of Coins: " + player.GetCurrency());
+            Console.WriteLine("Skill Points: " + player.GetSkillPoints());
         }
 
         public void ShopWeaponsText(Shop shop, Player player, WeaponActions weapon)
@@ -252,7 +252,6 @@ namespace text_game
         {
             Console.WriteLine(enemy.GetEnemy().Name + "'s Total Damage: " + enemy.GetEnemyTotalDamage());
             Console.WriteLine("Enemy difficulty boost: " + enemy.GetDifficultyBoost());
-            //Console.WriteLine(enemy.GetEnemy().Name + "'s Starting Health: " + enemy.GetEnemyStartingHealth());
         }
 
         public static void DisplayPlayerStats(Player player, EnemyActions enemy, WeaponActions weapon)
@@ -260,19 +259,14 @@ namespace text_game
             Console.WriteLine("Player Health: " + player.GetHealth());
             Console.WriteLine("Current Weapon: " + weapon.GetWeaponName());
             Console.WriteLine(weapon.GetWeaponName() + "'s Durability: " + weapon.GetDurability());
-            //Console.WriteLine("Player Total Damage: " + player.GetTotalDamage());
-            Console.WriteLine("Exp from " + enemy.GetEnemy().Name + ": " + player.GetEncounterExp());
-            Console.WriteLine("Total Exp: " + player.GetExp());
+            Console.WriteLine("Total Exp: " + player.GetExp() + " (+{0})", player.GetEncounterExp());
             Console.WriteLine("Current Level: " + player.GetLevel());
-            //Console.WriteLine("Enemies Slain: " + player.AddEnemiesSlain());
-            Console.WriteLine("Number of Coins From " + enemy.GetEnemy().Name + ": " + player.GetEncounterCurrency());
-            //Console.WriteLine("Number of Coins: " + player.GetCurrency());
-            //Console.WriteLine("Skill Points: " + level.GetSkillPoints());
+            Console.WriteLine("Number of Coins: " + player.GetCurrency() + " (+{0})", player.GetEncounterCurrency());
         }
 
         public static void DisplayPotionStats(EnemyActions enemy, HealthPotions healthPotion, ShieldPotion shieldPotion)
         {
-            Console.WriteLine(enemy.GetEnemy().Name + " health potions dropped: " + enemy.GetDropPotions());
+            Console.WriteLine("Health potions dropped: " + enemy.GetDropPotions());
             Console.WriteLine("Health Potions Left: " + healthPotion.GetNumPotions());
             Console.WriteLine("Shield Potions Left: " + shieldPotion.GetNumPotions());
         }
