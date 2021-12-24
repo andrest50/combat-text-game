@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace text_game
 {
-    public class GameMessages
+    public static class GameMessages
     {
 
         public static string Welcome()
@@ -208,7 +208,7 @@ namespace text_game
             Console.WriteLine("Skill Points: " + player.GetSkillPoints());
         }
 
-        public void ShopWeaponsText(Player player, WeaponActions weapon)
+        public static void ShopWeaponsText(Player player, WeaponActions weapon)
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Here are the Weapons Available for Purchase:\n");

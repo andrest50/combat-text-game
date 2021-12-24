@@ -12,7 +12,6 @@ namespace text_game
         private HealthPotions HealthPotions { get; set; }
         private ShieldPotion ShieldPotions { get; set; }
         private WeaponActions WeaponActions { get; set; }
-        private GameMessages Messages { get; set; }
 
         private int potionQuantity;
 
@@ -26,12 +25,11 @@ namespace text_game
 
         }
 
-        public Shop(Player player, WeaponActions weapon, HealthPotions healthPotions, GameMessages messages, ShieldPotion shieldPotions)
+        public Shop(Player player, WeaponActions weapon, HealthPotions healthPotions, ShieldPotion shieldPotions)
         {
             Player = player;
             WeaponActions = weapon;
             HealthPotions = healthPotions;
-            Messages = messages;
             ShieldPotions = shieldPotions;
         }
 

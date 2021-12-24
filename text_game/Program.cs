@@ -24,7 +24,6 @@ namespace text_game
         public const bool DEBUG = true;
         static void Main(string[] args)
         {
-            GameMessages messages = new GameMessages();
             EnemyActions enemyActions = new EnemyActions();
             WeaponActions weaponActions = new WeaponActions();
             HealthPotions healthPotion = new HealthPotions();
@@ -33,8 +32,8 @@ namespace text_game
             AbilityActions abilityActions = new AbilityActions();
             Abilities ability = new Abilities();
             Utils utils = new Utils();
-            Shop shop = new Shop(player, weaponActions, healthPotion, messages, shieldPotion);
-            GameMechanics mechanics = new GameMechanics(player, enemyActions, weaponActions, messages, healthPotion, shop, shieldPotion, abilityActions, ability, utils);
+            Shop shop = new Shop(player, weaponActions, healthPotion, shieldPotion);
+            GameMechanics mechanics = new GameMechanics(player, enemyActions, weaponActions, healthPotion, shop, shieldPotion, abilityActions, ability, utils);
 
             string playerName = GameMessages.Welcome();
             player.SetPlayerName(playerName);
@@ -122,7 +121,7 @@ namespace text_game
                             selectedDebugOptions.Add(debugOptions[choice - 1]);
                             debugOptions.RemoveAt(choice - 1);
                         }
-                        GameLoop.Loop(enemyActions, player, messages, mechanics, weaponActions);
+                        GameLoop.Loop(enemyActions, player, mechanics, weaponActions);
                         break;
                     case 2:
                         Console.WriteLine("---------------------------------------------------------------------------");

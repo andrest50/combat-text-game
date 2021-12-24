@@ -12,7 +12,6 @@ namespace text_game
         public bool running = true;
         private readonly Player Player;
         private readonly EnemyActions EnemyActions;
-        private readonly GameMessages Messages;
         private readonly WeaponActions WeaponActions;
         private readonly ShieldPotion ShieldPotion;
         private readonly HealthPotions HealthPotion;
@@ -24,13 +23,12 @@ namespace text_game
         public GameMechanics() { }            
 
         public GameMechanics(Player player, EnemyActions enemyActions, WeaponActions weaponActions, 
-            GameMessages messages, HealthPotions healthPotion, Shop shop, 
-            ShieldPotion shieldPotion, AbilityActions abilityActions, Abilities ability, Utils utils)
+            HealthPotions healthPotion, Shop shop, ShieldPotion shieldPotion, AbilityActions abilityActions, 
+            Abilities ability, Utils utils)
         {
             Player = player;
             EnemyActions = enemyActions;
             WeaponActions = weaponActions;
-            Messages = messages;
             HealthPotion = healthPotion;
             Shop = shop;
             ShieldPotion = shieldPotion;
@@ -309,7 +307,7 @@ namespace text_game
                     case 1:
                         GameMessages.ContinueFightingText();
                         loop = false;
-                        GameLoop.Loop(EnemyActions, Player, Messages, this, WeaponActions);
+                        GameLoop.Loop(EnemyActions, Player, this, WeaponActions);
                         break;
                     case 2:
                         if (LeaveDungeon())

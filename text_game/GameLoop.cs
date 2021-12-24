@@ -9,7 +9,7 @@ namespace text_game
     public class GameLoop
     {
 
-        public static void Loop(EnemyActions enemyActions, Player player, GameMessages txt, GameMechanics mechanics, WeaponActions weapon)
+        public static void Loop(EnemyActions enemyActions, Player player, GameMechanics mechanics, WeaponActions weapon)
         {
             
             while (mechanics.running)
