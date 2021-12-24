@@ -8,7 +8,7 @@ namespace text_game
 {
     public class AbilityActions
     {
-        public List<Abilities> AllAbilities = new List<Abilities>();
+        public List<Abilities> AllAbilities;
         public List<Abilities> OwnedAbilities = new List<Abilities>();        
         private Abilities Ability;
 
@@ -29,7 +29,6 @@ namespace text_game
 
             return Ability;
         }
-
 
         private void InitAbilities()
         {
@@ -114,19 +113,19 @@ namespace text_game
             }
         }
 
-        public void CheckBuyCost(Player player, String name, int cost, bool bought)
+        public void CheckBuyCost(Player player, String abilityName, int cost, bool owned)
         {
-            if (player.GetSkillPoints() >= cost && bought == false)
+            if (player.GetSkillPoints() >= cost && owned == false)
             {
-                AbilityPurchased(name);
+                AbilityPurchasedMessage(abilityName);
 
-                if (name == "Fireball")
+                if (abilityName == "Fireball")
                 {
                     OwnedAbilities.Add(FireballAbility());
                 }
                 player.SetSkillPoints(player.GetSkillPoints() - cost);
             }
-            else if (bought == true)
+            else if (owned == true)
                 Console.WriteLine("You already own that ability");
             else
                 Console.WriteLine("You don't have the sufficient number of skill points for purchase.");
@@ -143,7 +142,7 @@ namespace text_game
             return damage;
         }
 
-        public void AbilityPurchased(String name)
+        public void AbilityPurchasedMessage(String name)
         {
             Console.WriteLine("You've purchased the " + name);
         }

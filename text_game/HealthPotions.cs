@@ -11,6 +11,7 @@ namespace text_game
         public HealthPotions()
         {
             SetNumPotions(30);
+            SetCost(3);
             SetHealthPotionAmount(30);
         }
 

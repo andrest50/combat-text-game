@@ -12,5 +12,6 @@ namespace text_game
         public int MinimumDamage { get; set; }
         public int MaximumDamage { get; set; }
         public int Durability { get; set; }
+        public int Cost { get; set; }
     }
 }

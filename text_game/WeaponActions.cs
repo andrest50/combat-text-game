@@ -29,7 +29,8 @@ namespace text_game
                 Name = "Wooden Sword",
                 MinimumDamage = 12,
                 MaximumDamage = 20,
-                Durability = 100
+                Durability = 100,
+                Cost = 0
             };
             AllWeapons.Add(weapon1);
 
@@ -38,7 +39,8 @@ namespace text_game
                 Name = "Bronze Sword",
                 MinimumDamage = 15,
                 MaximumDamage = 25,
-                Durability = 75
+                Durability = 75,
+                Cost = 20
             };
             AllWeapons.Add(weapon2);
 
@@ -47,7 +49,8 @@ namespace text_game
                 Name = "Sniper",
                 MinimumDamage = 17,
                 MaximumDamage = 23,
-                Durability = 50
+                Durability = 20,
+                Cost = 20
             };
             AllWeapons.Add(weapon3);
 
@@ -56,7 +59,8 @@ namespace text_game
                 Name = "Spear",
                 MinimumDamage = 18,
                 MaximumDamage = 22,
-                Durability = 60
+                Durability = 60,
+                Cost = 20
             };
             AllWeapons.Add(weapon4);
 
@@ -65,7 +69,8 @@ namespace text_game
                 Name = "Silver Sword",
                 MinimumDamage = 20,
                 MaximumDamage = 30,
-                Durability = 70
+                Durability = 70,
+                Cost = 30
             };
             AllWeapons.Add(weapon5);
 
@@ -74,7 +79,8 @@ namespace text_game
                 Name = "Rocket Launcher",
                 MinimumDamage = 22,
                 MaximumDamage = 28,
-                Durability = 40
+                Durability = 40,
+                Cost = 30
             };
             AllWeapons.Add(weapon6);
 
@@ -83,7 +89,8 @@ namespace text_game
                 Name = "Shotgun",
                 MinimumDamage = 24,
                 MaximumDamage = 26,
-                Durability = 35
+                Durability = 35,
+                Cost = 30
             };
             AllWeapons.Add(weapon7);
 
@@ -92,7 +99,8 @@ namespace text_game
                 Name = "Golden Sword",
                 MinimumDamage = 25,
                 MaximumDamage = 35,
-                Durability = 50
+                Durability = 50,
+                Cost = 40
             };
             AllWeapons.Add(weapon8);
         }
@@ -134,14 +142,19 @@ namespace text_game
             return weaponBoost;
         }
 
-        public void SetWeapon(String thisWeapon)
+        public void SetWeapon(String weaponName)
         {
-            Weapon = AllWeapons.Where(x => x.Name == thisWeapon).SingleOrDefault();
+            Weapon = AllWeapons.Where(x => x.Name == weaponName).SingleOrDefault();
         }
 
         public Weapon GetWeapon()
         {
             return Weapon;
+        }
+
+        public Weapon GetWeaponByName(string weaponName)
+        {
+            return AllWeapons.Where(x => x.Name == weaponName).SingleOrDefault();
         }
 
         public String GetWeaponName()

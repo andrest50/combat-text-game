@@ -9,6 +9,7 @@ namespace text_game
     public class Potion
     {
         public int NumPotions { get; set; }
+        public int Cost { get; set; }
 
         public Potion()
         {
@@ -28,6 +29,16 @@ namespace text_game
         public void SetNumPotions(int numPotions)
         {
             this.NumPotions = numPotions;
+        }
+
+        public int GetCost()
+        {
+            return Cost;
+        }
+
+        public void SetCost(int cost)
+        {
+            this.Cost = cost;
         }
 
         public void IncrementNumPotions(int numPotions)

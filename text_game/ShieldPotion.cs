@@ -11,6 +11,7 @@ namespace text_game
         public ShieldPotion()
         {
             SetNumPotions(5);
+            SetCost(5);
             SetShieldTurns(3);
             SetShieldActive(false);
         }

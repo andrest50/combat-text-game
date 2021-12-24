@@ -208,19 +208,19 @@ namespace text_game
             Console.WriteLine("Skill Points: " + player.GetSkillPoints());
         }
 
-        public void ShopWeaponsText(Shop shop, Player player, WeaponActions weapon)
+        public void ShopWeaponsText(Player player, WeaponActions weapon)
         {
             Console.WriteLine("---------------------------------------------------------------------------");
             Console.WriteLine("Here are the Weapons Available for Purchase:\n");
             Console.WriteLine("Number of Coins: " + player.GetCurrency() + "\n");
             Console.WriteLine("You current weapon is the " + weapon.GetWeaponName() + "\n");
-            Console.WriteLine("1. Bronze Sword - " + shop.bronzeSwordCost);
-            Console.WriteLine("2. Sniper - " + shop.sniperCost);
-            Console.WriteLine("3. Tarp - " + shop.spearCost);
-            Console.WriteLine("4. Silver Sword - " + shop.silverSwordCost);
-            Console.WriteLine("5. Rocket Launcher - " + shop.rocketLauncherCost);
-            Console.WriteLine("6. Ripper - " + shop.shotgunCost);
-            Console.WriteLine("7. Golden Sword - " + shop.goldenSwordCost);
+            Console.WriteLine("1. Bronze Sword - " + weapon.GetWeaponByName("Bronze Sword").Cost);
+            Console.WriteLine("2. Sniper - " + weapon.GetWeaponByName("Sniper").Cost);
+            Console.WriteLine("3. Spear - " + weapon.GetWeaponByName("Spear").Cost);
+            Console.WriteLine("4. Silver Sword - " + weapon.GetWeaponByName("Silver Sword").Cost);
+            Console.WriteLine("5. Rocket Launcher - " + weapon.GetWeaponByName("Rocket Launcher").Cost);
+            Console.WriteLine("6. Shotgun - " + weapon.GetWeaponByName("Shotgun").Cost);
+            Console.WriteLine("7. Golden Sword - " + weapon.GetWeaponByName("Golden Sword").Cost);
             Console.WriteLine("8. Shop Menu");
         }
 
